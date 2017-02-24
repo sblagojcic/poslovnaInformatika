@@ -10,54 +10,57 @@ import play.db.jpa.Model;
 public class StavkaFakture extends Model {
 	
 	@Column(nullable=false, unique=true, length=3) 
-	public int redniBroj;
-	
-	@Column(nullable=false, length=120) 
-	public String nazivStavke;
+	public int idStavke;
 	
 	@Column(nullable=false, precision=10, scale=2) 
 	public float kolicina;
-	
-	@Column(nullable=false, length=6) 
-	public String jedinicaMere;
 	
 	@Column(nullable=false, precision=10, scale=2) 
 	public float jedinicnaCena;
 	
 	@Column(nullable=false, precision=12, scale=2) 
-	public float vrednost;
+	public float rabat;
+	
+	@Column(nullable=false, precision=12, scale=2) 
+	public float osnovica;
 	
 	@Column(nullable=false, precision=5, scale=2) 
-	public float procenatRabata;
+	public float procenatPDV;
 	
 	@Column(nullable=false, precision=12, scale=2) 
-	public float iznosRabata;
+	public float iznosPDV;
 	
 	@Column(nullable=false, precision=12, scale=2) 
-	public float umanjenoZaRabat;
-	
-	@Column(nullable=false, precision=12, scale=2) 
-	public float ukupanPorez;
+	public float iznosStavke;
 	
 	@ManyToOne
 	public Faktura faktura;
+	
+	@ManyToOne
+	public RobaIliUsluga robaIliUsluga;
 
-	public StavkaFakture(int redniBroj, String nazivStavke, float kolicina, String jedinicaMere, float jedinicnaCena,
-			float vrednost, float procenatRabata, float iznosRabata, float umanjenoZaRabat, float ukupanPorez,
-			Faktura faktura) {
+	public StavkaFakture(int idStavke, float kolicina, float jedinicnaCena, float rabat, float osnovica,
+			float procenatPDV, float iznosPDV, float iznosStavke, Faktura faktura, RobaIliUsluga robaIliUsluga) {
 		super();
-		this.redniBroj = redniBroj;
-		this.nazivStavke = nazivStavke;
+		this.idStavke = idStavke;
 		this.kolicina = kolicina;
-		this.jedinicaMere = jedinicaMere;
 		this.jedinicnaCena = jedinicnaCena;
-		this.vrednost = vrednost;
-		this.procenatRabata = procenatRabata;
-		this.iznosRabata = iznosRabata;
-		this.umanjenoZaRabat = umanjenoZaRabat;
-		this.ukupanPorez = ukupanPorez;
+		this.rabat = rabat;
+		this.osnovica = osnovica;
+		this.procenatPDV = procenatPDV;
+		this.iznosPDV = iznosPDV;
+		this.iznosStavke = iznosStavke;
 		this.faktura = faktura;
+		this.robaIliUsluga = robaIliUsluga;
 	}
+
+	public StavkaFakture() {
+		super();
+	}
+	
+
+	
+	
 	
 	
 }

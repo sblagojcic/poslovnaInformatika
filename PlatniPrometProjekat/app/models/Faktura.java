@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import play.db.jpa.Model;
@@ -15,86 +16,67 @@ public class Faktura extends Model{
 	@Column(nullable=false, unique=true, length=50) 
 	public String idFakture;
 	
-	@Column(nullable=false, length=255) 
-	public String nazivDobavljaca;
-	
-	@Column(nullable=false, length=255) 
-	public String adresaDobavljaca;
-	
-	@Column(nullable=false, length=11) 
-	public String PIBDobavljaca;
-	
-	@Column(nullable=false, length=55) 
-	public String nazivKupca;
-	
-	@Column(nullable=false, length=55) 
-	public String adresaKupca;
-	
-	@Column(nullable=false, length=11) 
-	public String PIBKupca;
-	
 	@Column(nullable=false, length=6) 
-	public int brojRacuna;
+	public int brojFaktura;
 	
 	@Column(nullable=false) 
-	public Date datumRacuna;
-	
-	@Column(nullable=false, precision=15, scale=2) 
-	public float vrednostRoba;
-	
-	@Column(nullable=false, precision=15, scale=2) 
-	public float vrednostUsluga;
-	
-	@Column(nullable=false, precision=15, scale=2) 
-	public float ukupnoRobaIUsluga;
-	
-	@Column(nullable=false, precision=15, scale=2) 
-	public float ukupnoRabat;
-	
-	@Column(nullable=false, precision=15, scale=2) 
-	public float ukupnoPorez;
-	
-	@Column(nullable=false, length=3) 
-	public String oznakaValute;
-	
-	@Column(nullable=false, precision=15, scale=2) 
-	public float iznosZaUplatu;
-	
-	@Column(nullable=false, length=18) 
-	public String uplataNaRacun;
+	public Date datumFakture;
 	
 	@Column(nullable=false) 
 	public Date datumValute;
 	
+	@Column(nullable=false, precision=15, scale=2) 
+	public float osnovica;
+	
+	@Column(nullable=false, precision=15, scale=2) 
+	public float ukupanPDV;
+	
+	@Column(nullable=false, precision=15, scale=2) 
+	public float iznosZaPlacanje;
+	
+	@Column(nullable=false, length=2) 
+	public String statusFakture;
+	
+	
 	@OneToMany(mappedBy="Faktura")
 	public List<StavkaFakture>stavkeFakture;
+	
+	@ManyToOne
+	public PoslovnaGodina poslovnaGodina;
+	
+	@ManyToOne
+	public Preduzece preduzece;
+	
+	@ManyToOne
+	public PoslovniPartner poslovniPartner;
 
-	public Faktura(String idFakture, String nazivDobavljaca, String adresaDobavljaca, String pIBDobavljaca,
-			String nazivKupca, String adresaKupca, String pIBKupca, int brojRacuna, Date datumRacuna,
-			float vrednostRoba, float vrednostUsluga, float ukupnoRobaIUsluga, float ukupnoRabat, float ukupnoPorez,
-			String oznakaValute, float iznosZaUplatu, String uplataNaRacun, Date datumValute,
-			List<StavkaFakture> stavkeFakture) {
+
+	public Faktura(String idFakture, int brojFaktura, Date datumFakture, Date datumValute, float osnovica,
+			float ukupanPDV, float iznosZaPlacanje, String statusFakture, List<StavkaFakture> stavkeFakture,
+			PoslovnaGodina poslovnaGodina, Preduzece preduzece, PoslovniPartner poslovniPartner) {
 		super();
 		this.idFakture = idFakture;
-		this.nazivDobavljaca = nazivDobavljaca;
-		this.adresaDobavljaca = adresaDobavljaca;
-		PIBDobavljaca = pIBDobavljaca;
-		this.nazivKupca = nazivKupca;
-		this.adresaKupca = adresaKupca;
-		PIBKupca = pIBKupca;
-		this.brojRacuna = brojRacuna;
-		this.datumRacuna = datumRacuna;
-		this.vrednostRoba = vrednostRoba;
-		this.vrednostUsluga = vrednostUsluga;
-		this.ukupnoRobaIUsluga = ukupnoRobaIUsluga;
-		this.ukupnoRabat = ukupnoRabat;
-		this.ukupnoPorez = ukupnoPorez;
-		this.oznakaValute = oznakaValute;
-		this.iznosZaUplatu = iznosZaUplatu;
-		this.uplataNaRacun = uplataNaRacun;
+		this.brojFaktura = brojFaktura;
+		this.datumFakture = datumFakture;
 		this.datumValute = datumValute;
+		this.osnovica = osnovica;
+		this.ukupanPDV = ukupanPDV;
+		this.iznosZaPlacanje = iznosZaPlacanje;
+		this.statusFakture = statusFakture;
 		this.stavkeFakture = stavkeFakture;
+		this.poslovnaGodina = poslovnaGodina;
+		this.preduzece = preduzece;
+		this.poslovniPartner = poslovniPartner;
 	}
+
+
+
+
+
+	public Faktura() {
+		super();
+	}
+
 	
 	
 }
