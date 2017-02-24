@@ -24,10 +24,10 @@ public class RobaIliUsluga extends Model{
 	@ManyToOne
 	public GrupaRobe grupaRobe;
 	
-	@OneToMany(mappedBy="RobaIliUsluga")
+	@OneToMany(mappedBy="robaIliUsluga")
 	public List<StavkaFakture>stavkeFakture;
 	
-	@OneToMany(mappedBy="RobaIliUsluga")
+	@OneToMany(mappedBy="robaIliUsluga")
 	public List<StavkaCenovnika>stavkeCenovnika;
 
 

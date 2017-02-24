@@ -18,10 +18,10 @@ public class Mesto extends Model{
 	public String nazivMesta;
 	
 	
-	@OneToMany(mappedBy="Mesto")
+	@OneToMany(mappedBy="mesto")
 	public List<PoslovniPartner>poslovniPartneri;
 	
-	@OneToMany(mappedBy="Mesto")
+	@OneToMany(mappedBy="mesto")
 	public List<Preduzece>preduzeca;
 
 	public Mesto(String idMesta, String nazivMesta, List<PoslovniPartner> poslovniPartneri, List<Preduzece> preduzeca) {

@@ -23,16 +23,16 @@ public class GrupaRobe extends Model{
 	@ManyToOne
 	public Preduzece preduzece;
 	
-	@OneToMany(mappedBy="GrupaRobe")
+	@OneToMany(mappedBy="grupaRobe")
 	public List<RobaIliUsluga>robeIliUsluge;
 
 
-	public GrupaRobe(int idRobe, String nazivGrupe, models.PDV pDV, Preduzece preduzece,
+	public GrupaRobe(int idRobe, String nazivGrupe, PDV pDV, Preduzece preduzece,
 			List<RobaIliUsluga> robeIliUsluge) {
 		super();
 		this.idRobe = idRobe;
 		this.nazivGrupe = nazivGrupe;
-		PDV = pDV;
+		this.PDV = pDV;
 		this.preduzece = preduzece;
 		this.robeIliUsluge = robeIliUsluge;
 	}
