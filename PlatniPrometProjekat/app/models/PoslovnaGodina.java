@@ -21,7 +21,7 @@ public class PoslovnaGodina extends Model {
 	public boolean zakljucena;
 	
 	
-	@OneToMany(mappedBy="PoslovnaGodina")
+	@OneToMany(mappedBy="poslovnaGodina")
 	public List<Faktura>fakture;
 
 

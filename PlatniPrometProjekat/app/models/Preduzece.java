@@ -31,16 +31,16 @@ public class Preduzece extends Model {
 	public String email;
 	
 	
-	@OneToMany(mappedBy="Preduzece")
+	@OneToMany(mappedBy="preduzece")
 	public List<Faktura>fakture;
 	
-	@OneToMany(mappedBy="Preduzece")
+	@OneToMany(mappedBy="preduzece")
 	public List<PoslovniPartner>poslovniPartneri;
 	
-	@OneToMany(mappedBy="Preduzece")
+	@OneToMany(mappedBy="preduzece")
 	public List<GrupaRobe>grupeRobe;
 	
-	@OneToMany(mappedBy="Preduzece")
+	@OneToMany(mappedBy="preduzece")
 	public List<Cenovnik>cenovnici;
 	
 	@ManyToOne
@@ -53,7 +53,7 @@ public class Preduzece extends Model {
 		this.idPreduzeca = idPreduzeca;
 		this.nazivPreduzeca = nazivPreduzeca;
 		this.ulicaIBroj = ulicaIBroj;
-		PIB = pIB;
+		this.PIB = pIB;
 		this.telefon = telefon;
 		this.email = email;
 		this.fakture = fakture;

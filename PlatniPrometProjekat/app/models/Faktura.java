@@ -38,7 +38,7 @@ public class Faktura extends Model{
 	public String statusFakture;
 	
 	
-	@OneToMany(mappedBy="Faktura")
+	@OneToMany(mappedBy="faktura")
 	public List<StavkaFakture>stavkeFakture;
 	
 	@ManyToOne
@@ -68,6 +68,9 @@ public class Faktura extends Model{
 		this.preduzece = preduzece;
 		this.poslovniPartner = poslovniPartner;
 	}
+
+
+
 
 
 

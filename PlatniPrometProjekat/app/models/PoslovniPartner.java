@@ -10,7 +10,7 @@ import javax.persistence.OneToMany;
 import play.db.jpa.Model;
 
 @Entity
-public class PoslovniPartner<Preduzece> extends Model{
+public class PoslovniPartner extends Model{
 
 	@Column(nullable=false, unique=true, length=50) 
 	public String idPartnera;
@@ -30,11 +30,13 @@ public class PoslovniPartner<Preduzece> extends Model{
 	@ManyToOne
 	public Preduzece preduzece;
 	
-	@OneToMany(mappedBy="PoslovniPartner")
-	public List<Faktura>fakture;
+	@OneToMany(mappedBy="poslovniPartner")
+	public List<Faktura>faktura;
+
+
 
 	public PoslovniPartner(String idPartnera, String nazivPartnera, String vrstaPartnera, String ulicaIBroj,
-			Mesto mesto, Preduzece preduzece, List<Faktura> fakture) {
+			Mesto mesto, Preduzece preduzece, List<Faktura> faktura) {
 		super();
 		this.idPartnera = idPartnera;
 		this.nazivPartnera = nazivPartnera;
@@ -42,8 +44,10 @@ public class PoslovniPartner<Preduzece> extends Model{
 		this.ulicaIBroj = ulicaIBroj;
 		this.mesto = mesto;
 		this.preduzece = preduzece;
-		this.fakture = fakture;
+		this.faktura = faktura;
 	}
+
+
 
 	public PoslovniPartner() {
 		super();

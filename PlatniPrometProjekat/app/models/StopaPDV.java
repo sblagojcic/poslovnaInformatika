@@ -23,12 +23,12 @@ public class StopaPDV extends Model {
 	@ManyToOne
 	public PDV PDV;
 
-	public StopaPDV(int idStope, int procenatPDV, Date datumVazenja, models.PDV pDV) {
+	public StopaPDV(int idStope, int procenatPDV, Date datumVazenja, PDV pDV) {
 		super();
 		this.idStope = idStope;
 		this.procenatPDV = procenatPDV;
 		this.datumVazenja = datumVazenja;
-		PDV = pDV;
+		this.PDV = pDV;
 	}
 
 	public StopaPDV() {
