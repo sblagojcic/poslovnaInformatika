@@ -43,6 +43,9 @@ li a:hover {
 form label, form input{
 	margin-left:1em;
 }
+form inpit{
+	margin-left: 6em;
+}
 
 form label{
 	width:3em;
