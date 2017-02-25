@@ -1,5 +1,5 @@
 #{extends 'standardForm.html' /}
-#{set title:'Cenovnik' /}
+#{set title:'Mesto' /}
 
 <script>
 
@@ -11,20 +11,16 @@ function sync(item){
 }
 
 /* function nextForm(id){
-	$(location).attr('href', '/NaseljenaMesta/filter?id=&stavkeCenovnika=&datumVazenja=&postanskiBroj=&drzava=' +id);
+	$(location).attr('href', '/NaseljenaMesta/filter?id=&stavkeMestoa=&datumVazenja=&postanskiBroj=&drzava=' +id);
 } */
     
 
-	  $("datumVazenja").click(function() {
-		  var dat=document.getElementById("datumVazenja").value;
-		  var dat=document.getElementById("preduzece").value;
-		  
-	  });
+	
 </script>
 
 <p>
 <ul>
-  <li><a href="@{Cenovnici.show("filter")}" id = "search"><img src="@{'/public/images/search.gif'}"/></a></li>
+  <li><a href="@{Mesta.show("filter")}" id = "search"><img src="@{'/public/images/search.gif'}"/></a></li>
   <li><a href="#" id= "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
   <li><a href="#" id= "pickup"><img src="@{'/public/images/zoom-pickup.gif'}"/></a></li>
   <li><a href="#" id= "help"><img src="@{'/public/images/help.gif'}"/></a></li>
@@ -32,41 +28,43 @@ function sync(item){
   <li><a  id= "prev"><img src="@{'/public/images/prev.gif'}"/></a></li>
   <li><a  id= "next"><img src="@{'/public/images/next.gif'}"/></a></li>
   <li><a  id= "last"><img src="@{'/public/images/last.gif'}"/></a></li>
-  <li><a href="@{Cenovnici.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
+  <li><a href="@{Mesta.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
   <li><a href="#" id = "remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
   <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
 </ul>
 </p>
 
 
-<h1>Cenovnici</h1>
+<h1>Mesta</h1>
 
 <table>
 	<tr class = "header">
-	   <th>datum vazenja</th>
+	   <th>naziv</th>
 	   <th>preduzece</th>
+	   <th>poslovni partner</th>
 	</tr>
-#{list items:cenovnici, as:'cenovnik'}
+#{list items:mesta, as:'mesto'}
 	<tr>
-		<td class = "datumVazenja">${cenovnik.datumVazenja}</td>
-		<td class = "preduzece">${cenovnik.preduzece.nazivPreduzeca}</td>
+		<td class = "naziv">${mesto.nazivMesta}</td>
+		<td class = "preduzece1">${mesto.preduzeca.nazivPreduzeca}</td>
+		<td class = "poslovniPartner">${mesto.poslovniPartneri.nazivPartnera}</td>
 		
-		<td style = "visibility: hidden; max-width: 0px" class = "id">${cenovnik.id}</td>
+		<td style = "visibility: hidden; max-width: 0px" class = "id">${mesto.id}</td>
 	</tr>
 #{/list}
 </table>
 
 #{set 'action'}
 	#{if mode == 'add'}
-		@{Cenovnici.add()}
+		@{Mesta.add()}
 	#{/if}
 	
 	#{elseif mode == 'edit'}
-		@{Cenovnici.edit()}
+		@{Mesta.edit()}
 	#{/elseif}
 
 	#{else}
-		@{Cenovnici.filter()}
+		@{Mesta.filter()}
 	#{/else}
 #{/set}
 
@@ -81,17 +79,17 @@ function sync(item){
 				
 				
 				<p>
-				#{field 'datumVazenja'}
-					<label for = "${field.id}">Datum vazenja</label>
-					<input type = "date" name = "${field.name}" id = "datumVazenja"/>
-					<span>#{error 'datumVazenja' /}</span>
+				#{field 'nazivMesta'}
+					<label for = "${field.id}">nazivMesta</label>
+					<input type = "text" name = "${field.name}" id = "${field.name}"/>
+					<span>#{error 'nazivMesta' /}</span>
 				#{/}
 				
 				</p>
 				<p>
 				#{field 'preduzece'}
 					<label for = "${field.id}">Preduzece</label>
-					<select name = "${field.name}" id = "preduzece"/>
+					<select name = "${field.name}" id = "${field.id}"/>
 					#{list items:preduzeca, as:'preduzece'}
 					<option value = "${preduzece.id}">${preduzece.nazivPreduzeca}</option>
 					#{/list}
@@ -101,9 +99,22 @@ function sync(item){
 				#{/}
 				</p>
 				
+				<p>
+				#{field 'poslovniPartner'}
+					<label for = "${field.id}">poslovni partner</label>
+					<select name = "${field.name}" id = "${field.id}"/>
+					#{list items:poslovniPartneri, as:'poslovniPartner'}
+					<option value = "${poslovniPartner.id}">${poslovniPartner.nazivPartnera}</option>
+					#{/list}
+					</select>
+					
+					 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#poslovniPartnerModal">...	</button>
+				#{/}
+				</p>
+				
 				<div id = "formActions">
-					<input type = "submit" value = "Potvrda" id="sad" style="margin-left:6em"/>
-					<a href = "@{Cenovnici.show("")}" style="margin-left:1em">Rollback</a>
+					<input type = "submit" value = "Potvrda" style="margin-left:6em"/>
+					<a href = "@{Mesta.show("")}" style="margin-left:1em">Rollback</a>
 				</div>			
 				
 		</form>	
@@ -147,3 +158,39 @@ function sync(item){
    </div>
 </div>
 
+
+ <!-- Modal -->
+  <div class="modal fade" id="poslovniPartnerModal" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+      <div class="modal-header">
+      	PoslovniPartneri
+      </div>
+      <div class="modal-body">
+	    <table style = "padding:2em">
+		<tr class = "header">
+		    
+		   <th>Naziv</th>
+		   <th>adresa</th>
+		   <th>mesto</th>
+		   <th>preduzece</th>
+		   </tr>
+		#{list items:poslovniPartneri, as:'poslovniPartner'}
+		<tr>
+			<td class = "naziv">${poslovniPartner.nazivPartnera}</td>
+			<td class = "ulicaIBroj">${poslovniPartner.ulicaIBroj}</td>
+			<td class = "mesto">${poslovniPartner.mesto}</td>
+			<td class = "preduzeca">${poslovniPartner.preduzece}</td>
+			<td style = "visibility: hidden; max-width: 0px" class = "id">${poslovniPartner.id}</td>
+		</tr>
+		#{/list}
+		</table>
+		<div class="modal-footer">
+			<input id = "poslovniPartnerPickup" type = "button" value = "izbor"/>
+		</div>
+		</div>
+      </div>
+    </div>
+   </div>
+</div>

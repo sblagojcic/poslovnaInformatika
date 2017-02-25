@@ -1,0 +1,19 @@
+#{extends 'main.html' /}
+#{set title:'index.html' /}
+
+<table>
+	<tr>
+		<th>stavkeCenovnika</th> 
+	    <th>datumVazenja</th>
+	</tr>
+	
+	#{list items:mesta, as:'mesto' }
+	
+	<tr>
+		<td>${mesto.naziv}</td>
+
+	</tr>
+	
+	
+	#{/list}
+</table>
