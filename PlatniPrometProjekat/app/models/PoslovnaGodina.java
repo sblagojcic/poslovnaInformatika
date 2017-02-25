@@ -11,8 +11,6 @@ import play.db.jpa.Model;
 @Entity
 public class PoslovnaGodina extends Model {
 
-	@Column(nullable=false, unique=true, length=50) 
-	public String idGodine;
 	
 	@Column(nullable=false, length=4) 
 	public int godina;
@@ -25,9 +23,8 @@ public class PoslovnaGodina extends Model {
 	public List<Faktura>fakture;
 
 
-	public PoslovnaGodina(String idGodine, int godina, boolean zakljucena, List<Faktura> fakture) {
+	public PoslovnaGodina(int godina, boolean zakljucena, List<Faktura> fakture) {
 		super();
-		this.idGodine = idGodine;
 		this.godina = godina;
 		this.zakljucena = zakljucena;
 		this.fakture = fakture;

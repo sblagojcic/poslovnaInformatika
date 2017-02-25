@@ -11,9 +11,7 @@ import play.db.jpa.Model;
 @Entity
 public class StopaPDV extends Model {
 	
-	@Column(nullable=false, unique=true, length=3) 
-	public int idStope;
-	
+
 	@Column(nullable=false, length=3) 
 	public int procenatPDV;
 	
@@ -23,9 +21,8 @@ public class StopaPDV extends Model {
 	@ManyToOne
 	public PDV PDV;
 
-	public StopaPDV(int idStope, int procenatPDV, Date datumVazenja, PDV pDV) {
+	public StopaPDV(int procenatPDV, Date datumVazenja, PDV pDV) {
 		super();
-		this.idStope = idStope;
 		this.procenatPDV = procenatPDV;
 		this.datumVazenja = datumVazenja;
 		this.PDV = pDV;

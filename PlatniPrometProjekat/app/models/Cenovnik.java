@@ -13,8 +13,7 @@ import play.db.jpa.Model;
 @Entity
 public class Cenovnik extends Model {
 	
-	@Column(nullable=false, unique=true, length=50) 
-	public String idCenovnika;
+
 	
 	@Column(nullable=false) 
 	public Date datumVazenja;
@@ -27,9 +26,8 @@ public class Cenovnik extends Model {
 
 
 
-	public Cenovnik(String idCenovnika, Date datumVazenja, List<StavkaCenovnika> stavkeCenovnika, Preduzece preduzece) {
+	public Cenovnik(Date datumVazenja, List<StavkaCenovnika> stavkeCenovnika, Preduzece preduzece) {
 		super();
-		this.idCenovnika = idCenovnika;
 		this.datumVazenja = datumVazenja;
 		this.stavkeCenovnika = stavkeCenovnika;
 		this.preduzece = preduzece;

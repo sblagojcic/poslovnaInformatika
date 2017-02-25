@@ -12,9 +12,7 @@ import play.db.jpa.Model;
 @Entity
 public class Preduzece extends Model {
 	
-	@Column(nullable=false, unique=true, length=50) 
-	public String idPreduzeca;
-	
+
 	@Column(nullable=false, length=20) 
 	public String nazivPreduzeca;
 	
@@ -46,11 +44,10 @@ public class Preduzece extends Model {
 	@ManyToOne
 	public Mesto mesto;
 
-	public Preduzece(String idPreduzeca, String nazivPreduzeca, String ulicaIBroj, int pIB, String telefon,
+	public Preduzece(String nazivPreduzeca, String ulicaIBroj, int pIB, String telefon,
 			String email, List<Faktura> fakture, List<PoslovniPartner> poslovniPartneri, List<GrupaRobe> grupeRobe,
 			List<Cenovnik> cenovnici, Mesto mesto) {
 		super();
-		this.idPreduzeca = idPreduzeca;
 		this.nazivPreduzeca = nazivPreduzeca;
 		this.ulicaIBroj = ulicaIBroj;
 		this.PIB = pIB;

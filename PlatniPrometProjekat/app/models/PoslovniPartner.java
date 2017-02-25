@@ -12,9 +12,6 @@ import play.db.jpa.Model;
 @Entity
 public class PoslovniPartner extends Model{
 
-	@Column(nullable=false, unique=true, length=50) 
-	public String idPartnera;
-	
 	@Column(nullable=false, length=30) 
 	public String nazivPartnera;
 	
@@ -35,10 +32,9 @@ public class PoslovniPartner extends Model{
 
 
 
-	public PoslovniPartner(String idPartnera, String nazivPartnera, String vrstaPartnera, String ulicaIBroj,
+	public PoslovniPartner(String nazivPartnera, String vrstaPartnera, String ulicaIBroj,
 			Mesto mesto, Preduzece preduzece, List<Faktura> faktura) {
 		super();
-		this.idPartnera = idPartnera;
 		this.nazivPartnera = nazivPartnera;
 		this.vrstaPartnera = vrstaPartnera;
 		this.ulicaIBroj = ulicaIBroj;

@@ -13,8 +13,6 @@ import play.db.jpa.Model;
 @Entity
 public class Faktura extends Model{
 
-	@Column(nullable=false, unique=true, length=50) 
-	public String idFakture;
 	
 	@Column(nullable=false, length=6) 
 	public int brojFaktura;
@@ -51,11 +49,10 @@ public class Faktura extends Model{
 	public PoslovniPartner poslovniPartner;
 
 
-	public Faktura(String idFakture, int brojFaktura, Date datumFakture, Date datumValute, float osnovica,
+	public Faktura(int brojFaktura, Date datumFakture, Date datumValute, float osnovica,
 			float ukupanPDV, float iznosZaPlacanje, String statusFakture, List<StavkaFakture> stavkeFakture,
 			PoslovnaGodina poslovnaGodina, Preduzece preduzece, PoslovniPartner poslovniPartner) {
 		super();
-		this.idFakture = idFakture;
 		this.brojFaktura = brojFaktura;
 		this.datumFakture = datumFakture;
 		this.datumValute = datumValute;

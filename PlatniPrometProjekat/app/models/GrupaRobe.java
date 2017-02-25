@@ -11,8 +11,7 @@ import play.db.jpa.Model;
 
 @Entity
 public class GrupaRobe extends Model{
-	@Column(nullable=false, unique=true, length=3) 
-	public int idRobe;
+
 	
 	@Column(nullable=false, length=20) 
 	public String nazivGrupe;
@@ -30,7 +29,6 @@ public class GrupaRobe extends Model{
 	public GrupaRobe(int idRobe, String nazivGrupe, PDV pDV, Preduzece preduzece,
 			List<RobaIliUsluga> robeIliUsluge) {
 		super();
-		this.idRobe = idRobe;
 		this.nazivGrupe = nazivGrupe;
 		this.PDV = pDV;
 		this.preduzece = preduzece;

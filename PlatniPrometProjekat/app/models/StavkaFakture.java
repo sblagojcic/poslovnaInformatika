@@ -9,9 +9,7 @@ import play.db.jpa.Model;
 @Entity
 public class StavkaFakture extends Model {
 	
-	@Column(nullable=false, unique=true, length=3) 
-	public int idStavke;
-	
+
 	@Column(nullable=false, precision=10, scale=2) 
 	public float kolicina;
 	
@@ -39,10 +37,9 @@ public class StavkaFakture extends Model {
 	@ManyToOne
 	public RobaIliUsluga robaIliUsluga;
 
-	public StavkaFakture(int idStavke, float kolicina, float jedinicnaCena, float rabat, float osnovica,
+	public StavkaFakture(float kolicina, float jedinicnaCena, float rabat, float osnovica,
 			float procenatPDV, float iznosPDV, float iznosStavke, Faktura faktura, RobaIliUsluga robaIliUsluga) {
 		super();
-		this.idStavke = idStavke;
 		this.kolicina = kolicina;
 		this.jedinicnaCena = jedinicnaCena;
 		this.rabat = rabat;

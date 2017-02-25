@@ -11,8 +11,7 @@ import play.db.jpa.Model;
 @Entity
 public class Mesto extends Model{
 
-	@Column(nullable=false, unique=true, length=50) 
-	public String idMesta;
+
 	
 	@Column(nullable=false, length=20) 
 	public String nazivMesta;
@@ -24,9 +23,9 @@ public class Mesto extends Model{
 	@OneToMany(mappedBy="mesto")
 	public List<Preduzece>preduzeca;
 
-	public Mesto(String idMesta, String nazivMesta, List<PoslovniPartner> poslovniPartneri, List<Preduzece> preduzeca) {
+	public Mesto(String nazivMesta, List<PoslovniPartner> poslovniPartneri, List<Preduzece> preduzeca) {
 		super();
-		this.idMesta = idMesta;
+
 		this.nazivMesta = nazivMesta;
 		this.poslovniPartneri = poslovniPartneri;
 		this.preduzeca = preduzeca;
