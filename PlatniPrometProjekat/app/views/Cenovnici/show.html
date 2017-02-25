@@ -1,0 +1,145 @@
+#{extends 'standardForm.html' /}
+#{set title:'Cenovnik' /}
+
+<script>
+
+function sync(item){
+    datumVazenja = item.find(".datumVazenja").html()
+    preduzece = item.find(".preduzece").html()
+    $("#datumVazenja").val(datumVazenja);
+    $("#preduzece").val(preduzece);
+}
+
+/* function nextForm(id){
+	$(location).attr('href', '/NaseljenaMesta/filter?id=&stavkeCenovnika=&datumVazenja=&postanskiBroj=&drzava=' +id);
+} */
+    
+
+	
+</script>
+
+<p>
+<ul>
+  <li><a href="@{Cenovnici.show("filter")}" id = "search"><img src="@{'/public/images/search.gif'}"/></a></li>
+  <li><a href="#" id= "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
+  <li><a href="#" id= "pickup"><img src="@{'/public/images/zoom-pickup.gif'}"/></a></li>
+  <li><a href="#" id= "help"><img src="@{'/public/images/help.gif'}"/></a></li>
+  <li><a  id= "first"><img src="@{'/public/images/first.gif'}"/></a></li>
+  <li><a  id= "prev"><img src="@{'/public/images/prev.gif'}"/></a></li>
+  <li><a  id= "next"><img src="@{'/public/images/next.gif'}"/></a></li>
+  <li><a  id= "last"><img src="@{'/public/images/last.gif'}"/></a></li>
+  <li><a href="@{Cenovnici.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
+  <li><a href="#" id = "remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
+  <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
+</ul>
+</p>
+
+
+<h1>Cenovnici</h1>
+
+<table>
+	<tr class = "header">
+	   <th>datum vazenja</th>
+	   <th>preduzece</th>
+	</tr>
+#{list items:cenovnici, as:'cenovnik'}
+	<tr>
+		<td class = "datumVazenja">${cenovnik.datumVazenja}</td>
+		<td class = "preduzece">${cenovnik.preduzece.nazivPreduzeca}</td>
+		
+		<td style = "visibility: hidden; max-width: 0px" class = "id">${cenovnik.id}</td>
+	</tr>
+#{/list}
+</table>
+
+#{set 'action'}
+	#{if mode == 'add'}
+		@{Cenovnici.add()}
+	#{/if}
+	
+	#{elseif mode == 'edit'}
+		@{Cenovnici.edit()}
+	#{/elseif}
+
+	#{else}
+		@{Cenovnici.filter()}
+	#{/else}
+#{/set}
+
+
+
+<div class = "panel">
+	<p>
+		<form action=${action} method="post">		
+				#{field 'id'}
+					<input type = "hidden" name = "${field.name}" id = "${field.id}"/>
+				#{/}
+				
+				
+				<p>
+				#{field 'datumVazenja'}
+					<label for = "${field.id}">datumVazenja</label>
+					<input type = "text" name = "${field.name}" id = "${field.name}"/>
+					<span>#{error 'datumVazenja' /}</span>
+				#{/}
+				
+				</p>
+				<p>
+				#{field 'preduzece'}
+					<label for = "${field.id}">Preduzece</label>
+					<select name = "${field.name}" id = "${field.id}"/>
+					#{list items:preduzeca, as:'preduzece'}
+					<option value = "${preduzece.id}">${preduzece.nazivPreduzeca}</option>
+					#{/list}
+					</select>
+					
+					 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#preduzeceModal">...	</button>
+				#{/}
+				</p>
+				
+				<div id = "formActions">
+					<input type = "submit" value = "Potvrda" style="margin-left:6em"/>
+					<a href = "@{Cenovnici.show("")}" style="margin-left:1em">Rollback</a>
+				</div>			
+				
+		</form>	
+</p>
+</div>
+ <!-- Modal -->
+  <div class="modal fade" id="preduzeceModal" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+      <div class="modal-header">
+      	Preduzece
+      </div>
+      <div class="modal-body">
+	    <table style = "padding:2em">
+		<tr class = "header">
+		    
+		   <th>Naziv</th>
+		   <th>adresa</th>
+		   <th>PIB</th>
+		   <th>telefon</th>
+		   <th>email</th>
+		</tr>
+		#{list items:preduzeca, as:'preduzece'}
+		<tr>
+			<td class = "naziv">${preduzece.nazivPreduzeca}</td>
+			<td class = "ulicaIBroj">${preduzece.ulicaIBroj}</td>
+			<td class = "PIB">${preduzece.PIB}</td>
+			<td class = "telefon">${preduzece.telefon}</td>
+			<td class = "email">${preduzece.email}</td>
+			<td style = "visibility: hidden; max-width: 0px" class = "id">${preduzece.id}</td>
+		</tr>
+		#{/list}
+		</table>
+		<div class="modal-footer">
+			<input id = "preduzecePickup" type = "button" value = "izbor"/>
+		</div>
+		</div>
+      </div>
+    </div>
+   </div>
+</div>
+

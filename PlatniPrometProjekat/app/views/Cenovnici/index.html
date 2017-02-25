@@ -1,0 +1,20 @@
+#{extends 'main.html' /}
+#{set title:'index.html' /}
+
+<table>
+	<tr>
+		<th>stavkeCenovnika</th> 
+	    <th>datumVazenja</th>
+	</tr>
+	
+	#{list items:cenovnici, as:'cenovnik' }
+	
+	<tr>
+		<td>${cenovnik.datumVazenja}</td>
+		<td>${cenovnik.stavkeCenovnika}</td>
+		<td>${cenovnik.preduzece}</td>
+	</tr>
+	
+	
+	#{/list}
+</table>
