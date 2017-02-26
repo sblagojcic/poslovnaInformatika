@@ -33,7 +33,7 @@ public class Cenovnici extends Controller {
 			show("add");
 	}
 	}
-	public static void filter(Date datum, long preduzece){
+	public static void filter(long preduzece){
 		List<Cenovnik> cenovnici = Cenovnik.find("byPreduzece_id", preduzece).fetch();
 		String mode = "edit";
 		renderTemplate("Cenovnici/show.html", cenovnici, mode);

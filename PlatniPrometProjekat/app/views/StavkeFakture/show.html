@@ -1,0 +1,191 @@
+#{extends 'standardForm.html' /}
+#{set title:'Stavke fakture' /}
+
+<script>
+
+
+function sync(item){
+    kolicina = item.find(".kolicina").html()
+	jedinicnaCena = item.find(".jedinicnaCena").html()
+    rabat = item.find(".rabat").html()
+    osnovica = item.find(".osnovica").html()
+    procenatPDV = item.find(".procenatPDV").html()
+    iznosPDV = item.find(".iznosPDV").html()
+    iznosStavke = item.find(".iznosStavke").html()
+    faktura = item.find(".faktura").html()
+    robaIliUsluga = item.find(".robaIliUsluga").html()
+    id = item.find(".id").html()
+    $("#kolicina").val(kolicina);
+    $("#jedinicnaCena").val(jedinicnaCena);
+    $("#rabat").val(rabat);
+    $("#osnovica").val(osnovica);
+    $("#procenatPDV").val(procenatPDV);
+    $("#iznosPDV").val(iznosPDV);
+    $("#iznosStavke").val(iznosStavke);
+    $("#robaIliUsluga").val(robaIliUsluga);
+    $("#faktura").val(faktura);
+    $("#id").val(id);
+}
+
+
+</script>
+
+<p>
+<ul>
+  <li><a href="@{StavkeFakture.show("filter")}" id = "search"><img src="@{'/public/images/search.gif'}"/></a></li>
+  <li><a href="#" id= "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
+  <li><a href="#" id= "pickup"><img src="@{'/public/images/zoom-pickup.gif'}"/></a></li>
+  <li><a href="#" id= "help"><img src="@{'/public/images/help.gif'}"/></a></li>
+  <li><a  id= "first"><img src="@{'/public/images/first.gif'}"/></a></li>
+  <li><a  id= "prev"><img src="@{'/public/images/prev.gif'}"/></a></li>
+  <li><a  id= "next"><img src="@{'/public/images/next.gif'}"/></a></li>
+  <li><a  id= "last"><img src="@{'/public/images/last.gif'}"/></a></li>
+  <li><a href="@{StavkeFakture.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
+  <li><a href="@{StavkeFakture.show("remove")}" id = "remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
+  <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
+</ul>
+</p>
+
+
+<h1>Stavke fakture</h1>
+
+<table>
+	<tr class = "header">
+	   <th>kolicina</th>
+	   <th>jedinicna cena</th>
+	   <th>rabat</th>
+	   <th>osnovica</th>
+	   <th>procenat pdv</th>
+	   <th>iznos pdv</th>
+	   <th>iznos stavke</th>
+	   <th>roba ili usluga</th>
+	   <th>faktura</th>
+	   
+	</tr>
+#{list items:stavkeFakture, as:'stavkaFakture'}
+	<tr>
+		<td class = "kolicina">${stavkaFakture.kolicina}</td>
+		<td class = "jedinicnaCena">${stavkaFakture.jedinicnaCena}</td>
+		<td class = "rabat">${stavkaFakture.rabat}</td>
+		<td class = "osnovica">${stavkaFakture.osnovica}</td>
+		<td class = "procenatPDV">${stavkaFakture.procenatPDV}</td>
+		<td class = "iznosPDV">${stavkaFakture.iznosPDV}</td>
+		<td class = "iznosStavke">${stavkaFakture.iznosStavke}</td>
+		<td class = "robaIliUsluga">${stavkaFakture.robaIliUsluga.nazivRIU}</td>
+		<td class = "faktura">${stavkaFakture.faktura.brojFaktura}</td>
+		
+		<td style = "visibility: hidden; max-width: 0px" class = "id">${stavkaFakture.id}</td>
+	</tr>
+#{/list}
+</table>
+
+#{set 'action'}
+	#{if mode == 'add'}
+		@{StavkeFakture.add()}
+	#{/if}
+	
+	#{elseif mode == 'edit'}
+		@{StavkeFakture.edit()}
+	#{/elseif}
+	
+	#{elseif mode == 'remove'}
+		@{StavkeFakture.delete()}
+	#{/elseif}
+
+	#{else}
+		@{StavkeFakture.filter()}
+	#{/else}
+#{/set}
+
+
+
+<div class = "panel">
+	<p>
+		<form action=${action} method="post">		
+				#{field 'id'}
+					<input type = "hidden" name = "${field.name}" id = "${field.id}"/>
+				#{/}
+				
+				
+				<p>
+				#{field 'kolicina'}
+					<label for = "${field.id}">kolicina</label>
+					<input type = "number" name = "${field.name}" id = "kolicina"/>
+				#{/}
+				
+				</p>
+				<p>
+				#{field 'jedinicnaCena'}
+					<label for = "${field.id}">jedinicnaCena</label>
+					<input type = "number" name = "${field.name}" id = "jedinicnaCena"/>
+				#{/}
+				
+				</p>
+				<p>
+				#{field 'rabat'}
+					<label for = "${field.id}">rabat</label>
+					<input type = "number" name = "${field.name}" id = "rabat"/>
+				#{/}
+				
+				</p>
+				<p>
+				#{field 'osnovica'}
+					<label for = "${field.id}">osnovica</label>
+					<input type = "number" name = "${field.name}" id = "osnovica"/>
+				#{/}
+				
+				</p>
+				<p>
+				#{field 'procenatPDV'}
+					<label for = "${field.id}">procenatPDV</label>
+					<input type = "number" name = "${field.name}" id = "procenatPDV"/>
+				#{/}
+				
+				</p>
+				<p>
+				#{field 'iznosPDV'}
+					<label for = "${field.id}">iznosPDV</label>
+					<input type = "number" name = "${field.name}" id = "iznosPDV"/>
+				#{/}
+				
+				</p>
+				<p>
+				#{field 'iznosStavke'}
+					<label for = "${field.id}">iznosStavke</label>
+					<input type = "number" name = "${field.name}" id = "iznosStavke"/>
+				#{/}
+				
+				</p>
+
+				<p>
+				#{field 'robaIliUsluga'}
+					<label for = "${field.id}">Roba ili usluga</label>
+					<select name = "${field.name}" id = "${field.id}"/>
+					#{list items:robaIliUsluge, as:'robaIliUsluga'}
+					<option value = "${robaIliUsluga.id}">${robaIliUsluga.nazivRIU}</option>
+					#{/list}
+					</select>
+					
+				#{/}
+				</p>
+								<p>
+				#{field 'faktura'}
+					<label for = "${field.id}">faktura</label>
+					<select name = "${field.name}" id = "${field.id}"/>
+					#{list items:fakture, as:'faktura'}
+					<option value = "${faktura.id}">${faktura.brojFaktura}</option>
+					#{/list}
+					</select>
+					
+				#{/}
+				</p>
+				
+				<div id = "formActions">
+					<input type = "submit" value = "Potvrda" id="sad" style="margin-left:6em"/>
+					<a href = "@{StavkeFakture.show("")}" style="margin-left:1em">Rollback</a>
+				</div>			
+				
+		</form>	
+</p>
+</div>
+ 

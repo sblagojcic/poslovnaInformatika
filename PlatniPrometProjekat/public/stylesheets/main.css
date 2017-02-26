@@ -47,6 +47,10 @@ form input{
 	margin-left: 6em;
 }
 
+form select{
+	margin-left: 6em;
+}
+
 form label{
 	width:3em;
 	display:inline-block

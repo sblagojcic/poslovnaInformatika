@@ -17,17 +17,16 @@ public class PDV extends Model{
 	@Column(nullable=false, length=20) 
 	public String nazivPDV;
 	
-	
 	@OneToMany(mappedBy="PDV")
-	public List<GrupaRobe>grupeRoba;
+	public List<GrupaRobe>grupeRobe;
 	
 	@OneToMany(mappedBy="PDV")
 	public List<StopaPDV>stopePDV;
 
-	public PDV(String nazivPDV, List<GrupaRobe> grupeRoba, List<StopaPDV> stopePDV) {
+	public PDV(String nazivPDV, List<GrupaRobe> grupeRobe, List<StopaPDV> stopePDV) {
 		super();
 		this.nazivPDV = nazivPDV;
-		this.grupeRoba = grupeRoba;
+		this.grupeRobe = grupeRobe;
 		this.stopePDV = stopePDV;
 	}
 

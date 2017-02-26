@@ -1,6 +1,5 @@
 package controllers;
 
-import java.sql.Date;
 import java.util.List;
 
 import models.Mesto;
