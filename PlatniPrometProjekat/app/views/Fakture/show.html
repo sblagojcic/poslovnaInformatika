@@ -1,0 +1,222 @@
+#{extends 'standardForm.html' /}
+#{set title:'Cenovnik' /}
+
+<script>
+
+/* $(document).ready(function(){
+	$("#preduzecePickup").click(function(){
+		id = $(".highlighted").find(".id").html();
+		$("select").val(id);
+		
+	});
+	$("#poslovnaGodinaPickup").click(function(){
+		id = $(".highlighted").find(".id").html();
+		$("select").val(id);
+		
+	});
+	$("#poslovniPartnerPickup").click(function(){
+		id = $(".highlighted").find(".id").html();
+		$("select").val(id);
+		
+	});
+}); */
+
+function sync(item){
+    datumValute = item.find(".datumValute").html()
+    datumFakture = item.find(".datumFakture").html()
+    osnovica = item.find(".osnovica").html()
+    brojFaktura = item.find(".brojFaktura").html()
+    ukupanPDV = item.find(".ukupanPDV").html()
+    iznosZaPlacanje= item.find(".iznosZaPlacanje").html()
+    statusFakture = item.find(".statusFakture").html()
+    preduzece= item.find(".preduzece").html()
+    poslovnaGodina= item.find(".poslovnaGodina").html()
+    poslovniPartner= item.find(".poslovniPartner").html()
+    id = item.find(".id").html()
+    preduzece = item.find(".preduzece").html()
+    $("#datumValute").val(datumValute);
+    $("#datumFakture").val(datumFakture);
+    $("#osnovica").val(osnovica);
+    $("#brojFaktura").val(brojFaktura);
+    $("#ukupanPDV").val(ukupanPDV);
+    $("#iznosZaPlacanje").val(iznosZaPlacanje);
+    $("#statusFakture").val(statusFakture);
+    $("#poslovnaGodina").val(poslovnaGodina);
+    $("#poslovniPartner").val(poslovniPartner);
+    $("#preduzece").val(preduzece);
+    $("#id").val(id);
+}
+
+/* function nextForm(id){
+	$(location).attr('href', '/NaseljenaMesta/filter?id=&stavkeCenovnika=&datumValute=&postanskiBroj=&drzava=' +id);
+} */
+    
+
+</script>
+
+<p>
+<ul>
+  <li><a href="@{Fakture.show("filter")}" id = "search"><img src="@{'/public/images/search.gif'}"/></a></li>
+  <li><a href="#" id= "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
+  <li><a href="#" id= "pickup"><img src="@{'/public/images/zoom-pickup.gif'}"/></a></li>
+  <li><a href="#" id= "help"><img src="@{'/public/images/help.gif'}"/></a></li>
+  <li><a  id= "first"><img src="@{'/public/images/first.gif'}"/></a></li>
+  <li><a  id= "prev"><img src="@{'/public/images/prev.gif'}"/></a></li>
+  <li><a  id= "next"><img src="@{'/public/images/next.gif'}"/></a></li>
+  <li><a  id= "last"><img src="@{'/public/images/last.gif'}"/></a></li>
+  <li><a href="@{Fakture.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
+  <li><a href="@{Fakture.show("remove")}" id = "remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
+  <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
+</ul>
+</p>
+
+
+<h1>Fakture</h1>
+
+<table>
+	<tr class = "header">
+	   <th>broj faktura</th>
+	   <th>datum valute</th>
+	   <th>datum valute</th>
+	   <th>osnovica</th>
+	   <th>ukupan PDV</th>
+	   <th>iznos za placanje</th>
+	   <th>status fakture</th>
+	   <th>preduzece</th>
+	   <th>poslovni partner</th>
+	   <th>poslovna godina</th>
+	</tr>
+#{list items:fakture, as:'faktura'}
+	<tr>
+		<td class = "brojFaktura">${faktura.brojFaktura}</td>
+		<td class = "datumValute">${faktura.datumValute}</td>
+		<td class = "datumFakture">${faktura.datumFakture}</td>
+		<td class = "osnovica">${faktura.osnovica}</td>
+		<td class = "ukupanPDV">${faktura.ukupanPDV}</td>
+		<td class = "iznosZaPlacanje">${faktura.iznosZaPlacanje}</td>
+		<td class = "statusFakture">${faktura.statusFakture}</td>
+		<td class = "poslovniPartner">${faktura.poslovniPartner.nazivPartnera}</td>
+		<td class = "poslovnaGodina">${faktura.poslovnaGodina.godina}</td>
+		<td class = "preduzece">${faktura.preduzece.nazivPreduzeca}</td>
+		<td style = "visibility: hidden; max-width: 0px" class = "id">${faktura.id}</td>
+	</tr>
+#{/list}
+</table>
+
+#{set 'action'}
+	#{if mode == 'add'}
+		@{Fakture.add()}
+	#{/if}
+	
+	#{elseif mode == 'edit'}
+		@{Fakture.edit()}
+	#{/elseif}
+	
+	#{elseif mode == 'remove'}
+		@{Fakture.delete()}
+	#{/elseif}
+
+	#{else}
+		@{Fakture.filter()}
+	#{/else}
+#{/set}
+
+
+
+<div class = "panel">
+	<p>
+		<form action=${action} method="post">		
+				#{field 'id'}
+					<input type = "hidden" name = "${field.name}" id = "${field.id}"/>
+				#{/}
+				
+				<p>
+				#{field 'brojFaktura'}
+					<label for = "${field.id}">broj Faktura</label>
+					<input type = "number" name = "${field.name}" id = "${field.id}"/>
+				#{/}
+				
+				</p>
+				<p>
+				#{field 'datumFakture'}
+					<label for = "${field.id}">Datum fakture</label>
+					<input type = "date" name = "${field.name}" id = "${field.id}"/>
+				#{/}
+				
+				</p>
+				<p>
+				#{field 'datumValute'}
+					<label for = "${field.id}">Datum vazenja</label>
+					<input type = "date" name = "${field.name}" id = "${field.id}"/>
+				#{/}
+				
+				</p>
+				<p>
+				#{field 'osnovica'}
+					<label for = "${field.id}">osnovica</label>
+					<input type = "number" name = "${field.name}" id = "${field.id}"/>
+				#{/}
+				
+				</p>
+				#{field 'ukupanPDV'}
+					<label for = "${field.id}">ukupan PDV</label>
+					<input type = "number" name = "${field.name}" id = "${field.id}"/>
+				#{/}
+				
+				</p>
+				<p>
+				#{field 'iznosZaPlacanje'}
+					<label for = "${field.id}">iznos za placanje</label>
+					<input type = "number" name = "${field.name}" id = "${field.id}"/>
+				#{/}
+				
+				</p>
+				<p>
+				#{field 'statusFakture'}
+					<label for = "${field.id}">status fakture</label>
+					<input type = "text" name = "${field.name}" id = "${field.id}"/>
+				#{/}
+				
+				</p>
+				
+				
+				<p>
+				#{field 'preduzece'}
+					<label for = "${field.id}">Preduzece</label>
+					<select name = "${field.name}" id = "${field.id}"/>
+					#{list items:preduzeca, as:'preduzece'}
+					<option value = "${preduzece.id}">${preduzece.nazivPreduzeca}</option>
+					#{/list}
+					</select>
+					
+					#{/}
+				</p>
+				<p>
+				#{field 'poslovniPartner'}
+					<label for = "${field.id}">Poslovni partner</label>
+					<select name = "${field.name}" id = "${field.id}"/>
+					#{list items:poslovniPartneri, as:'poslovniPartner'}
+					<option value = "${poslovniPartner.id}">${poslovniPartner.nazivPartnera}</option>
+					#{/list}
+					</select>
+					#{/}
+				</p>
+				<p>
+				#{field 'poslovnaGodina'}
+					<label for = "${field.id}">Poslovna godina</label>
+					<select name = "${field.name}" id = "${field.id}"/>
+					#{list items:poslovneGodine, as:'poslovnaGodina'}
+					<option value = "${poslovnaGodina.id}">${poslovnaGodina.godina}</option>
+					#{/list}
+					</select>
+					#{/}
+				</p>
+				
+				<div id = "formActions">
+					<input type = "submit" value = "Potvrda" id="sad" style="margin-left:6em"/>
+					<a href = "@{Fakture.show("")}" style="margin-left:1em">Rollback</a>
+				</div>			
+				
+		</form>	
+</p>
+</div>

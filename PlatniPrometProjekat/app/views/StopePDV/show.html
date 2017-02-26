@@ -1,0 +1,125 @@
+#{extends 'standardForm.html' /}
+#{set title:'Stopa PDV' /}
+
+<script>
+
+function sync(item){
+	datumVazenja = item.find(".datumVazenja").html()
+    procenatPDV = item.find(".procenatPDV").html()
+	PDV = item.find(".PDV").html()
+    id = item.find(".id").html()
+    $("#datumVazenja").val(datumVazenja);
+	$("#procenatPDV ").val(procenatPDV );
+    $("#id").val(id);
+}
+
+/* function nextForm(id){
+	$(location).attr('href', '/NaseljenaMesta/filter?id=&stavkeMestoa=&datumVazenja=&postanskiBroj=&drzava=' +id);
+} */
+    
+
+	
+</script>
+
+<p>
+<ul>
+  <li><a href="@{StopePDV.show("filter")}" id = "search"><img src="@{'/public/images/search.gif'}"/></a></li>
+  <li><a href="#" id= "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
+  <li><a href="#" id= "pickup"><img src="@{'/public/images/zoom-pickup.gif'}"/></a></li>
+  <li><a href="#" id= "help"><img src="@{'/public/images/help.gif'}"/></a></li>
+  <li><a  id= "first"><img src="@{'/public/images/first.gif'}"/></a></li>
+  <li><a  id= "prev"><img src="@{'/public/images/prev.gif'}"/></a></li>
+  <li><a  id= "next"><img src="@{'/public/images/next.gif'}"/></a></li>
+  <li><a  id= "last"><img src="@{'/public/images/last.gif'}"/></a></li>
+  <li><a href="@{StopePDV.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
+  <li><a href="@{StopePDV.show("remove")}" id = "remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
+  <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
+</ul>
+</p>
+
+
+<h1>Stope PDV</h1>
+
+<table>
+	<tr class = "header">
+	   <th>procenat PDV</th>
+	   <th>datum vazenja</th>
+	   <th>PDV</th>
+	</tr>
+#{list items:stopePDV, as:'stopaPDV'}
+
+	<tr>
+		<td class = "procenatPDV">${stopaPDV.procenatPDV}</td>
+		<td class = "datumVazenja">${stopaPDV.datumVazenja}</td>
+		<td class = "PDV">${stopaPDV.PDV.nazivPDV}</td>	
+		<td style = "visibility: hidden; max-width: 0px" class = "id">${stopaPDV.id}</td>
+	</tr>
+
+#{/list}
+</table>
+
+#{set 'action'}
+	#{if mode == 'add'}
+		@{StopePDV.add()}
+	#{/if}
+	
+	#{elseif mode == 'edit'}
+		@{StopePDV.edit()}
+	#{/elseif}
+	
+	#{elseif mode == 'remove'}
+		@{StopePDV.delete()}
+	#{/elseif}
+	
+	#{else}
+		@{StopePDV.filter()}
+	#{/else}
+#{/set}
+
+
+
+<div class = "panel">
+	<p>
+		<form action=${action} method="post">		
+				#{field 'id'}
+					<input type = "hidden" name = "${field.name}" id = "${field.id}"/>
+				#{/}
+				
+				
+				<p>
+				#{field 'procenatPDV'}
+					<label for = "${field.id}">procenat PDV</label>
+					<input type = "number" name = "${field.name}" id = "${field.name}"/>
+					<span>#{error 'procenatPDV' /}</span>
+				#{/}
+				
+				</p>
+				<p>
+				#{field 'datumVazenja'}
+					<label for = "${field.id}">datum vazenja</label>
+					<input type = "date" name = "${field.name}" id = "${field.name}"/>
+					<span>#{error 'datumVazenja' /}</span>
+				#{/}
+				
+				</p>
+				<p>
+				#{field 'pDV'}
+					<label for = "${field.id}">PDV-ovi</label>
+					<select name = "${field.name}" id = "${field.id}"/>
+					#{list items:pDVovi, as:'pDV'}
+					<option value = "${pDV.id}">${pDV.nazivPDV}</option>
+					#{/list}
+					</select>
+					#{/}
+				</p>
+
+				
+				<div id = "formActions">
+					<input type = "submit" value = "Potvrda" style="margin-left:6em"/>
+					<a href = "@{StopePDV.show("")}" style="margin-left:1em">Rollback</a>
+				</div>			
+				
+		</form>	
+	</p>
+</div>
+ 

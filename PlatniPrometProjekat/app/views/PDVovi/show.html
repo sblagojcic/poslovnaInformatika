@@ -1,0 +1,100 @@
+#{extends 'standardForm.html' /}
+#{set title:'PDV' /}
+
+<script>
+
+function sync(item){
+	nazivPDV = item.find(".nazivPDV").html()
+    id = item.find(".id").html()
+    $("#nazivPDV").val(nazivPDV);
+    $("#id").val(id);
+}
+
+/* function nextForm(id){
+	$(location).attr('href', '/NaseljenaPDVovi/filter?id=&stavkePDVa=&datumVazenja=&postanskiBroj=&drzava=' +id);
+} */
+    
+
+	
+</script>
+
+<p>
+<ul>
+  <li><a href="@{PDVovi.show("filter")}" id = "search"><img src="@{'/public/images/search.gif'}"/></a></li>
+  <li><a href="#" id= "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
+  <li><a href="#" id= "pickup"><img src="@{'/public/images/zoom-pickup.gif'}"/></a></li>
+  <li><a href="#" id= "help"><img src="@{'/public/images/help.gif'}"/></a></li>
+  <li><a  id= "first"><img src="@{'/public/images/first.gif'}"/></a></li>
+  <li><a  id= "prev"><img src="@{'/public/images/prev.gif'}"/></a></li>
+  <li><a  id= "next"><img src="@{'/public/images/next.gif'}"/></a></li>
+  <li><a  id= "last"><img src="@{'/public/images/last.gif'}"/></a></li>
+  <li><a href="@{PDVovi.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
+  <li><a href="@{PDVovi.show("remove")}" id = "remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
+  <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
+</ul>
+</p>
+
+
+<h1>PDV</h1>
+
+<table>
+	<tr class = "header">
+	   <th>naziv</th>
+	</tr>
+#{list items:pDVovi, as:'pDV'}
+
+	<tr>
+		<td class = "nazivPDV">${pDV.nazivPDV}</td>
+		<td style = "visibility: hidden; max-width: 0px" class = "id">${pDV.id}</td>
+	</tr>
+
+#{/list}
+</table>
+
+#{set 'action'}
+	#{if mode == 'add'}
+		@{PDVovi.add()}
+	#{/if}
+	
+	#{elseif mode == 'edit'}
+		@{PDVovi.edit()}
+	#{/elseif}
+	
+	#{elseif mode == 'remove'}
+		@{PDVovi.delete()}
+	#{/elseif}
+	
+	#{else}
+		@{PDVovi.filter()}
+	#{/else}
+#{/set}
+
+
+
+<div class = "panel">
+	<p>
+		<form action=${action} method="post">		
+				#{field 'id'}
+					<input type = "hidden" name = "${field.name}" id = "${field.id}"/>
+				#{/}
+				
+				
+				<p>
+				#{field 'nazivPDV'}
+					<label for = "${field.id}">nazivPDV</label>
+					<input type = "text" name = "${field.name}" id = "${field.name}"/>
+					<span>#{error 'nazivPDV' /}</span>
+				#{/}
+				
+				</p>
+
+				
+				<div id = "formActions">
+					<input type = "submit" value = "Potvrda" style="margin-left:6em"/>
+					<a href = "@{PDVovi.show("")}" style="margin-left:1em">Rollback</a>
+				</div>			
+				
+		</form>	
+	</p>
+</div>
+ 
