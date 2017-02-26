@@ -29,8 +29,6 @@ public class Mesta extends Controller {
 			show("add");
 		}else {
 			Mesto mesto=new Mesto();
-			mesto.poslovniPartneri=PoslovniPartner.findById(poslovniPartner);
-			mesto.preduzeca=Preduzece.findById(preduzeca);
 			mesto.nazivMesta=nazivMesta;
 			mesto.save();
 			validation.keep();
@@ -38,20 +36,19 @@ public class Mesta extends Controller {
 	}
 	}
 	public static void filter(@Required String nazivMesta){
-		List<Mesto> mesta = Mesto.find("").fetch();
+		List<Mesto> mesta = Mesto.find("byNazivMestaLike", "%"+ nazivMesta +"%").fetch();
 		String mode = "edit";
-		renderTemplate("Mesto/show.html", mesta, mode);
+		renderTemplate("Mesta/show.html", mesta, mode);
 	}
 	public static void edit(@Required String nazivMesta,Long preduzeca,Long poslovniPartner, long id){
 		Mesto mesto = Mesto.findById(id);
-		mesto.poslovniPartneri=PoslovniPartner.findById(poslovniPartner);
-		mesto.preduzeca=Preduzece.findById(preduzeca);
 		mesto.nazivMesta=nazivMesta;
 		mesto.save();
 		show("");
 	}	
 	public static void delete(long id){
 		Mesto mesto = Mesto.findById(id);
+		System.out.println(id);
 		mesto.delete();
 		show("");
 	}

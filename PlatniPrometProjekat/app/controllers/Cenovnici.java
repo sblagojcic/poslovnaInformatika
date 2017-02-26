@@ -1,6 +1,6 @@
 package controllers;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import models.Cenovnik;
@@ -34,10 +34,9 @@ public class Cenovnici extends Controller {
 	}
 	}
 	public static void filter(Date datum, long preduzece){
-		List<Cenovnik> cenovnici = Cenovnik.find("select * from Cenovnik " +
-			    "where preduzece_id = "+preduzece+" and datumVazenja = "+datum).fetch();
+		List<Cenovnik> cenovnici = Cenovnik.find("byPreduzece_id", preduzece).fetch();
 		String mode = "edit";
-		renderTemplate("Cenovnik/show.html", cenovnici, mode);
+		renderTemplate("Cenovnici/show.html", cenovnici, mode);
 	}
 	public static void edit(Date datumVazenja,long preduzece, long id){
 		Cenovnik cenovnik = Cenovnik.findById(id);

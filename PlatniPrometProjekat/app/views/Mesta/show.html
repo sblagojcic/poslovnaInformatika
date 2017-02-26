@@ -4,10 +4,10 @@
 <script>
 
 function sync(item){
-    datumVazenja = item.find(".datumVazenja").html()
-    preduzece = item.find(".preduzece").html()
-    $("#datumVazenja").val(datumVazenja);
-    $("#preduzece").val(preduzece);
+	nazivMesta = item.find(".nazivMesta").html()
+    id = item.find(".id").html()
+    $("#nazivMesta").val(nazivMesta);
+    $("#id").val(id);
 }
 
 /* function nextForm(id){
@@ -29,7 +29,7 @@ function sync(item){
   <li><a  id= "next"><img src="@{'/public/images/next.gif'}"/></a></li>
   <li><a  id= "last"><img src="@{'/public/images/last.gif'}"/></a></li>
   <li><a href="@{Mesta.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
-  <li><a href="#" id = "remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
+  <li><a href="@{Mesta.show("remove")}" id = "remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
   <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
 </ul>
 </p>
@@ -44,13 +44,14 @@ function sync(item){
 	   <th>poslovni partner</th>
 	</tr>
 #{list items:mesta, as:'mesto'}
+
 	<tr>
 		<td class = "naziv">${mesto.nazivMesta}</td>
 		<td class = "preduzece1">${mesto.preduzeca.nazivPreduzeca}</td>
-		<td class = "poslovniPartner">${mesto.poslovniPartneri.nazivPartnera}</td>
-		
+		<td class = "poslovniPartner">${mesto.poslovniPartneri.nazivPartnera}</td>	
 		<td style = "visibility: hidden; max-width: 0px" class = "id">${mesto.id}</td>
 	</tr>
+
 #{/list}
 </table>
 
@@ -62,7 +63,11 @@ function sync(item){
 	#{elseif mode == 'edit'}
 		@{Mesta.edit()}
 	#{/elseif}
-
+	
+	#{elseif mode == 'remove'}
+		@{Mesta.delete()}
+	#{/elseif}
+	
 	#{else}
 		@{Mesta.filter()}
 	#{/else}
@@ -86,31 +91,7 @@ function sync(item){
 				#{/}
 				
 				</p>
-				<p>
-				#{field 'preduzece'}
-					<label for = "${field.id}">Preduzece</label>
-					<select name = "${field.name}" id = "${field.id}"/>
-					#{list items:preduzeca, as:'preduzece'}
-					<option value = "${preduzece.id}">${preduzece.nazivPreduzeca}</option>
-					#{/list}
-					</select>
-					
-					 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#preduzeceModal">...	</button>
-				#{/}
-				</p>
-				
-				<p>
-				#{field 'poslovniPartner'}
-					<label for = "${field.id}">poslovni partner</label>
-					<select name = "${field.name}" id = "${field.id}"/>
-					#{list items:poslovniPartneri, as:'poslovniPartner'}
-					<option value = "${poslovniPartner.id}">${poslovniPartner.nazivPartnera}</option>
-					#{/list}
-					</select>
-					
-					 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#poslovniPartnerModal">...	</button>
-				#{/}
-				</p>
+
 				
 				<div id = "formActions">
 					<input type = "submit" value = "Potvrda" style="margin-left:6em"/>
@@ -118,79 +99,6 @@ function sync(item){
 				</div>			
 				
 		</form>	
-</p>
+	</p>
 </div>
- <!-- Modal -->
-  <div class="modal fade" id="preduzeceModal" role="dialog">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-      <div class="modal-header">
-      	Preduzece
-      </div>
-      <div class="modal-body">
-	    <table style = "padding:2em">
-		<tr class = "header">
-		    
-		   <th>Naziv</th>
-		   <th>adresa</th>
-		   <th>PIB</th>
-		   <th>telefon</th>
-		   <th>email</th>
-		</tr>
-		#{list items:preduzeca, as:'preduzece'}
-		<tr>
-			<td class = "naziv">${preduzece.nazivPreduzeca}</td>
-			<td class = "ulicaIBroj">${preduzece.ulicaIBroj}</td>
-			<td class = "PIB">${preduzece.PIB}</td>
-			<td class = "telefon">${preduzece.telefon}</td>
-			<td class = "email">${preduzece.email}</td>
-			<td style = "visibility: hidden; max-width: 0px" class = "id">${preduzece.id}</td>
-		</tr>
-		#{/list}
-		</table>
-		<div class="modal-footer">
-			<input id = "preduzecePickup" type = "button" value = "izbor"/>
-		</div>
-		</div>
-      </div>
-    </div>
-   </div>
-</div>
-
-
- <!-- Modal -->
-  <div class="modal fade" id="poslovniPartnerModal" role="dialog">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-      <div class="modal-header">
-      	PoslovniPartneri
-      </div>
-      <div class="modal-body">
-	    <table style = "padding:2em">
-		<tr class = "header">
-		    
-		   <th>Naziv</th>
-		   <th>adresa</th>
-		   <th>mesto</th>
-		   <th>preduzece</th>
-		   </tr>
-		#{list items:poslovniPartneri, as:'poslovniPartner'}
-		<tr>
-			<td class = "naziv">${poslovniPartner.nazivPartnera}</td>
-			<td class = "ulicaIBroj">${poslovniPartner.ulicaIBroj}</td>
-			<td class = "mesto">${poslovniPartner.mesto}</td>
-			<td class = "preduzeca">${poslovniPartner.preduzece}</td>
-			<td style = "visibility: hidden; max-width: 0px" class = "id">${poslovniPartner.id}</td>
-		</tr>
-		#{/list}
-		</table>
-		<div class="modal-footer">
-			<input id = "poslovniPartnerPickup" type = "button" value = "izbor"/>
-		</div>
-		</div>
-      </div>
-    </div>
-   </div>
-</div>
+ 

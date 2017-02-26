@@ -3,11 +3,21 @@
 
 <script>
 
+$(document).ready(function(){
+	$("#preduzecePickup").click(function(){
+		id = $(".highlighted").find(".id").html();
+		$("select").val(id);
+		
+	});
+});
+
 function sync(item){
     datumVazenja = item.find(".datumVazenja").html()
     preduzece = item.find(".preduzece").html()
+    id = item.find(".id").html()
     $("#datumVazenja").val(datumVazenja);
     $("#preduzece").val(preduzece);
+    $("#id").val(id);
 }
 
 /* function nextForm(id){
@@ -33,7 +43,7 @@ function sync(item){
   <li><a  id= "next"><img src="@{'/public/images/next.gif'}"/></a></li>
   <li><a  id= "last"><img src="@{'/public/images/last.gif'}"/></a></li>
   <li><a href="@{Cenovnici.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
-  <li><a href="#" id = "remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
+  <li><a href="@{Cenovnici.show("remove")}" id = "remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
   <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
 </ul>
 </p>
@@ -50,7 +60,6 @@ function sync(item){
 	<tr>
 		<td class = "datumVazenja">${cenovnik.datumVazenja}</td>
 		<td class = "preduzece">${cenovnik.preduzece.nazivPreduzeca}</td>
-		
 		<td style = "visibility: hidden; max-width: 0px" class = "id">${cenovnik.id}</td>
 	</tr>
 #{/list}
@@ -63,6 +72,10 @@ function sync(item){
 	
 	#{elseif mode == 'edit'}
 		@{Cenovnici.edit()}
+	#{/elseif}
+	
+	#{elseif mode == 'remove'}
+		@{Cenovnici.delete()}
 	#{/elseif}
 
 	#{else}
@@ -84,14 +97,13 @@ function sync(item){
 				#{field 'datumVazenja'}
 					<label for = "${field.id}">Datum vazenja</label>
 					<input type = "date" name = "${field.name}" id = "datumVazenja"/>
-					<span>#{error 'datumVazenja' /}</span>
 				#{/}
 				
 				</p>
 				<p>
 				#{field 'preduzece'}
 					<label for = "${field.id}">Preduzece</label>
-					<select name = "${field.name}" id = "preduzece"/>
+					<select name = "${field.name}" id = "${field.id}"/>
 					#{list items:preduzeca, as:'preduzece'}
 					<option value = "${preduzece.id}">${preduzece.nazivPreduzeca}</option>
 					#{/list}
