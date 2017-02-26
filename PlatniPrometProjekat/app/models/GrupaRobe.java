@@ -26,11 +26,11 @@ public class GrupaRobe extends Model{
 	public List<RobaIliUsluga>robeIliUsluge;
 
 
-	public GrupaRobe(int idRobe, String nazivGrupe, PDV pDV, Preduzece preduzece,
+	public GrupaRobe(int idRobe, String nazivGrupe, PDV PDV, Preduzece preduzece,
 			List<RobaIliUsluga> robeIliUsluge) {
 		super();
 		this.nazivGrupe = nazivGrupe;
-		this.PDV = pDV;
+		this.PDV = PDV;
 		this.preduzece = preduzece;
 		this.robeIliUsluge = robeIliUsluge;
 	}
