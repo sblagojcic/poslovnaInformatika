@@ -11,7 +11,7 @@ public class StavkaNarudzbenice extends Model {
 	@Column(nullable=false, precision=10, scale=2) 
 	public float kolicina;
 	
-	@Column(nullable=false, length=2) 
+	@Column(nullable=false, length=3) 
 	public String jedinicaMere;
 	
 	@ManyToOne
