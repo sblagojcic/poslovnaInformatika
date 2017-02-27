@@ -3,10 +3,13 @@ package controllers;
 import java.util.Date;
 import java.util.List;
 
+import models.Faktura;
 import models.Otpremnica;
 import models.PoslovnaGodina;
 import models.PoslovniPartner;
 import models.Preduzece;
+import models.StavkaFakture;
+import models.StavkaOtpremnice;
 import play.data.validation.Error;
 import play.data.validation.Required;
 import play.mvc.Controller;
@@ -40,8 +43,66 @@ public class Otpremnice extends Controller {
 			otpremnica.save();
 			validation.keep();
 			show("add");
+		}
 	}
-	}
+	
+//	public static void generate( float osnovica, float ukupanPDV,
+//			 float iznosZaPlacanje,  long poslovniPartner,  long poslovnaGodina) {
+//		
+//		if(validation.hasErrors()) {
+//			for(Error error : validation.errors()) {
+//			System.out.println(error.message());
+//			}
+//			validation.keep();
+//			show("add");
+//		}else {
+//			Otpremnica otpremnica=new Otpremnica();
+//			otpremnica.osnovica=osnovica;
+//			otpremnica.ukupanPDV=ukupanPDV;
+//			otpremnica.iznosZaPlacanje=iznosZaPlacanje;
+//			otpremnica.poslovniPartner=PoslovniPartner.findById(poslovniPartner);
+//			otpremnica.poslovnaGodina=PoslovnaGodina.findById(poslovnaGodina);
+//			otpremnica.save();
+//			validation.keep();
+//			show("generate");
+//		}
+//	}
+//	
+	public static void generate(int brojOtpremnice, float osnovica, float ukupanPDV,
+			 float iznosZaPlacanje,  long poslovniPartner,  long poslovnaGodina, long id){
+		List<Otpremnica> zaBroj=Otpremnica.findAll();
+		int n=zaBroj.size()-1;
+		Faktura faktura=Faktura.findById(id);
+		Otpremnica otpremnicaa=zaBroj.get(n);		
+		Otpremnica otpremnica=new Otpremnica();
+		otpremnica.brojOtpremnice=otpremnicaa.brojOtpremnice+1;
+		otpremnica.osnovica=osnovica;
+		otpremnica.ukupanPDV=ukupanPDV;
+		otpremnica.iznosZaPlacanje=iznosZaPlacanje;
+		otpremnica.poslovniPartner=PoslovniPartner.findById(poslovniPartner);
+		otpremnica.poslovnaGodina=PoslovnaGodina.findById(poslovnaGodina);
+		otpremnica.save();
+		for (StavkaFakture stavkaF : faktura.stavkeFakture) {
+			StavkaOtpremnice stavkaO=new StavkaOtpremnice();
+			stavkaO.iznosStavke=stavkaF.iznosStavke;
+			stavkaO.kolicina=stavkaF.kolicina;
+			stavkaO.jedinicnaCena=stavkaF.jedinicnaCena;
+			stavkaO.rabat=stavkaF.rabat;
+			stavkaO.osnovica=stavkaF.osnovica;
+			stavkaO.procenatPDV=stavkaF.procenatPDV;
+			stavkaO.robaIliUsluga=stavkaF.robaIliUsluga;
+			stavkaO.iznosPDV=stavkaF.iznosPDV;
+			stavkaO.otpremnica=otpremnica;
+			stavkaO.save();
+			
+		}
+		show("");
+	}	
+	
+	
+	
+	
+	
 	public static void filter(Date datum, long preduzece){
 		List<Otpremnica> otpremnice = Otpremnica.find("byPreduzece_id", preduzece).fetch();
 		String mode = "edit";

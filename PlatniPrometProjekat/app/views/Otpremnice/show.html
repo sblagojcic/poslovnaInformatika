@@ -1,5 +1,5 @@
 #{extends 'standardForm.html' /}
-#{set title:'Cenovnik' /}
+#{set title:'Otpremnica' /}
 
 <script>
 
@@ -80,7 +80,9 @@ function sync(item){
 	   <th>ukupan PDV</th>
 	   <th>iznos za placanje</th>
 	   <th>poslovni partner</th>
+		<th>adresa</th>
 	   <th>poslovna godina</th>
+
 	</tr>
 #{list items:otpremnice, as:'otpremnica'}
 	<tr>
@@ -89,6 +91,7 @@ function sync(item){
 		<td class = "ukupanPDV">${otpremnica.ukupanPDV}</td>
 		<td class = "iznosZaPlacanje">${otpremnica.iznosZaPlacanje}</td>
 		<td class = "poslovniPartner">${otpremnica.poslovniPartner.nazivPartnera}</td>
+		<td class = "ulicaIBroj">${otpremnica.poslovniPartner.ulicaIBroj}</td>
 		<td class = "poslovnaGodina">${otpremnica.poslovnaGodina.godina}</td>
 		<td style = "visibility: hidden; max-width: 0px" class = "id">${otpremnica.id}</td>
 	</tr>
