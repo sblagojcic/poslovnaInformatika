@@ -46,39 +46,17 @@ public class Otpremnice extends Controller {
 		}
 	}
 	
-//	public static void generate( float osnovica, float ukupanPDV,
-//			 float iznosZaPlacanje,  long poslovniPartner,  long poslovnaGodina) {
-//		
-//		if(validation.hasErrors()) {
-//			for(Error error : validation.errors()) {
-//			System.out.println(error.message());
-//			}
-//			validation.keep();
-//			show("add");
-//		}else {
-//			Otpremnica otpremnica=new Otpremnica();
-//			otpremnica.osnovica=osnovica;
-//			otpremnica.ukupanPDV=ukupanPDV;
-//			otpremnica.iznosZaPlacanje=iznosZaPlacanje;
-//			otpremnica.poslovniPartner=PoslovniPartner.findById(poslovniPartner);
-//			otpremnica.poslovnaGodina=PoslovnaGodina.findById(poslovnaGodina);
-//			otpremnica.save();
-//			validation.keep();
-//			show("generate");
-//		}
-//	}
-//	
-	public static void generate(int brojOtpremnice, float osnovica, float ukupanPDV,
-			 float iznosZaPlacanje,  long poslovniPartner,  long poslovnaGodina, long id){
+
+	public static void generate(int brojOtpremnice, long poslovniPartner,  long poslovnaGodina, long id){
 		List<Otpremnica> zaBroj=Otpremnica.findAll();
 		int n=zaBroj.size()-1;
 		Faktura faktura=Faktura.findById(id);
 		Otpremnica otpremnicaa=zaBroj.get(n);		
 		Otpremnica otpremnica=new Otpremnica();
 		otpremnica.brojOtpremnice=otpremnicaa.brojOtpremnice+1;
-		otpremnica.osnovica=osnovica;
-		otpremnica.ukupanPDV=ukupanPDV;
-		otpremnica.iznosZaPlacanje=iznosZaPlacanje;
+		otpremnica.osnovica=faktura.osnovica;
+		otpremnica.ukupanPDV=faktura.ukupanPDV;
+		otpremnica.iznosZaPlacanje=faktura.iznosZaPlacanje;
 		otpremnica.poslovniPartner=PoslovniPartner.findById(poslovniPartner);
 		otpremnica.poslovnaGodina=PoslovnaGodina.findById(poslovnaGodina);
 		otpremnica.save();

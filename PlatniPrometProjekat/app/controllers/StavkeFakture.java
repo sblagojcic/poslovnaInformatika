@@ -21,7 +21,7 @@ public class StavkeFakture extends Controller {
 			mode = "edit";
 		render(stavkeFakture,robaIliUsluge,fakture, mode);
 	}
-	public static void add(@Required float kolicina,float jedinicnaCena,float rabat,float osnovica, float procenatPDV, float iznosPDV, float iznosStavke, @Required long robaIliUsluga, long faktura) {
+	public static void add(@Required float kolicina,float rabat,@Required long robaIliUsluga, long faktura) {
 		if(validation.hasErrors()) {
 			for(Error error : validation.errors()) {
 			System.out.println(error.message());
@@ -30,13 +30,14 @@ public class StavkeFakture extends Controller {
 			show("add");
 		}else {
 			StavkaFakture stavkaFakture=new StavkaFakture();
+			RobaIliUsluga roba=RobaIliUsluga.findById(robaIliUsluga);
 			stavkaFakture.kolicina=kolicina;
-			stavkaFakture.jedinicnaCena=jedinicnaCena;
+			stavkaFakture.jedinicnaCena=roba.stavkeCenovnika.get(0).cena;
 			stavkaFakture.rabat=rabat;
-			stavkaFakture.osnovica=osnovica;
-			stavkaFakture.procenatPDV=procenatPDV;
-			stavkaFakture.iznosPDV=iznosPDV;
-			stavkaFakture.iznosStavke=iznosStavke;
+			stavkaFakture.osnovica=kolicina*stavkaFakture.jedinicnaCena-rabat;
+			stavkaFakture.procenatPDV=roba.grupaRobe.PDV.stopePDV.get(0).procenatPDV;
+			stavkaFakture.iznosPDV=stavkaFakture.osnovica*stavkaFakture.procenatPDV/100;
+			stavkaFakture.iznosStavke=stavkaFakture.osnovica+stavkaFakture.iznosPDV;
 			stavkaFakture.robaIliUsluga=RobaIliUsluga.findById(robaIliUsluga);
 			stavkaFakture.faktura=Faktura.findById(faktura);
 			stavkaFakture.save();
@@ -51,16 +52,16 @@ public class StavkeFakture extends Controller {
 	}
 	public static void edit(long robaIliUsluga, long faktura, float kolicina,float jedinicnaCena,float rabat,float osnovica, float procenatPDV, float iznosPDV, float iznosStavke, long id){
 		StavkaFakture stavkaFakture = StavkaFakture.findById(id);
-		stavkaFakture.kolicina = kolicina;
-		stavkaFakture.jedinicnaCena = jedinicnaCena;
-		stavkaFakture.rabat = rabat;
-		stavkaFakture.osnovica = osnovica;
-		stavkaFakture.procenatPDV = procenatPDV;
-		stavkaFakture.iznosPDV = iznosPDV;
-		stavkaFakture.iznosStavke = iznosStavke;
-		stavkaFakture.faktura = Faktura.findById(faktura);
-		stavkaFakture.robaIliUsluga = RobaIliUsluga.findById(robaIliUsluga);
-
+		RobaIliUsluga roba=RobaIliUsluga.findById(robaIliUsluga);
+		stavkaFakture.kolicina=kolicina;
+		stavkaFakture.jedinicnaCena=roba.stavkeCenovnika.get(0).cena;
+		stavkaFakture.rabat=rabat;
+		stavkaFakture.osnovica=kolicina*stavkaFakture.jedinicnaCena-rabat;
+		stavkaFakture.procenatPDV=roba.grupaRobe.PDV.stopePDV.get(0).procenatPDV;
+		stavkaFakture.iznosPDV=stavkaFakture.osnovica*stavkaFakture.procenatPDV/100;
+		stavkaFakture.iznosStavke=stavkaFakture.osnovica+stavkaFakture.iznosPDV;
+		stavkaFakture.robaIliUsluga=RobaIliUsluga.findById(robaIliUsluga);
+		stavkaFakture.faktura=Faktura.findById(faktura);
 		stavkaFakture.save();
 		show("");
 	}	
