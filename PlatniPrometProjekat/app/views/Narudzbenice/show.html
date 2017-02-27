@@ -32,11 +32,13 @@ function sync(item){
   <li><a href="@{Narudzbenice.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
   <li><a href="@{Narudzbenice.show("remove")}" id = "remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
   <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
+  <li><a href="@{Narudzbenice.show("generate")}" id = "generate"><img src="@{'/public/images/add.gif'}"/></a></li>
+  
 </ul>
 </p>
 
 
-<h1>Fakture</h1>
+<h1>Narudzbenice</h1>
 
 <table>
 	<tr class = "header">
@@ -68,9 +70,14 @@ function sync(item){
 		@{Narudzbenice.delete()}
 	#{/elseif}
 
+	#{elseif mode == 'generate'}
+		@{Narudzbenice.generate()}
+	#{/elseif}
+	
 	#{else}
 		@{Narudzbenice.filter()}
 	#{/else}
+	
 #{/set}
 
 
