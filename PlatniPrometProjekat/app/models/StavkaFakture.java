@@ -54,10 +54,4 @@ public class StavkaFakture extends Model {
 	public StavkaFakture() {
 		super();
 	}
-	
-
-	
-	
-	
-	
 }
