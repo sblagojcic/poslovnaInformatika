@@ -1,0 +1,191 @@
+#{extends 'standardForm.html' /}
+#{set title:'Stavke otpremnice' /}
+
+<script>
+
+
+function sync(item){
+    kolicina = item.find(".kolicina").html()
+	jedinicnaCena = item.find(".jedinicnaCena").html()
+    rabat = item.find(".rabat").html()
+    osnovica = item.find(".osnovica").html()
+    procenatPDV = item.find(".procenatPDV").html()
+    iznosPDV = item.find(".iznosPDV").html()
+    iznosStavke = item.find(".iznosStavke").html()
+    otpremnica = item.find(".otpremnica").html()
+    robaIliUsluga = item.find(".robaIliUsluga").html()
+    id = item.find(".id").html()
+    $("#kolicina").val(kolicina);
+    $("#jedinicnaCena").val(jedinicnaCena);
+    $("#rabat").val(rabat);
+    $("#osnovica").val(osnovica);
+    $("#procenatPDV").val(procenatPDV);
+    $("#iznosPDV").val(iznosPDV);
+    $("#iznosStavke").val(iznosStavke);
+    $("#robaIliUsluga").val(robaIliUsluga);
+    $("#otpremnica").val(otpremnica);
+    $("#id").val(id);
+}
+
+
+</script>
+
+<p>
+<ul>
+  <li><a href="@{StavkeOtpremnice.show("filter")}" id = "search"><img src="@{'/public/images/search.gif'}"/></a></li>
+  <li><a href="#" id= "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
+  <li><a href="#" id= "pickup"><img src="@{'/public/images/zoom-pickup.gif'}"/></a></li>
+  <li><a href="#" id= "help"><img src="@{'/public/images/help.gif'}"/></a></li>
+  <li><a  id= "first"><img src="@{'/public/images/first.gif'}"/></a></li>
+  <li><a  id= "prev"><img src="@{'/public/images/prev.gif'}"/></a></li>
+  <li><a  id= "next"><img src="@{'/public/images/next.gif'}"/></a></li>
+  <li><a  id= "last"><img src="@{'/public/images/last.gif'}"/></a></li>
+  <li><a href="@{StavkeOtpremnice.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
+  <li><a href="@{StavkeOtpremnice.show("remove")}" id = "remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
+  <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
+</ul>
+</p>
+
+
+<h1>Stavke otpremnice</h1>
+
+<table>
+	<tr class = "header">
+	   <th>kolicina</th>
+	   <th>jedinicna cena</th>
+	   <th>rabat</th>
+	   <th>osnovica</th>
+	   <th>procenat pdv</th>
+	   <th>iznos pdv</th>
+	   <th>iznos stavke</th>
+	   <th>roba ili usluga</th>
+	   <th>otpremnica</th>
+	   
+	</tr>
+#{list items:stavkeOtpremnice, as:'stavkaOtpremnice'}
+	<tr>
+		<td class = "kolicina">${stavkaOtpremnice.kolicina}</td>
+		<td class = "jedinicnaCena">${stavkaOtpremnice.jedinicnaCena}</td>
+		<td class = "rabat">${stavkaOtpremnice.rabat}</td>
+		<td class = "osnovica">${stavkaOtpremnice.osnovica}</td>
+		<td class = "procenatPDV">${stavkaOtpremnice.procenatPDV}</td>
+		<td class = "iznosPDV">${stavkaOtpremnice.iznosPDV}</td>
+		<td class = "iznosStavke">${stavkaOtpremnice.iznosStavke}</td>
+		<td class = "robaIliUsluga">${stavkaOtpremnice.robaIliUsluga.nazivRIU}</td>
+		<td class = "otpremnica">${stavkaOtpremnice.otpremnica.brojOtpremnice}</td>
+		
+		<td style = "visibility: hidden; max-width: 0px" class = "id">${stavkaOtpremnice.id}</td>
+	</tr>
+#{/list}
+</table>
+
+#{set 'action'}
+	#{if mode == 'add'}
+		@{StavkeOtpremnice.add()}
+	#{/if}
+	
+	#{elseif mode == 'edit'}
+		@{StavkeOtpremnice.edit()}
+	#{/elseif}
+	
+	#{elseif mode == 'remove'}
+		@{StavkeOtpremnice.delete()}
+	#{/elseif}
+
+	#{else}
+		@{StavkeOtpremnice.filter()}
+	#{/else}
+#{/set}
+
+
+
+<div class = "panel">
+	<p>
+		<form action=${action} method="post">		
+				#{field 'id'}
+					<input type = "hidden" name = "${field.name}" id = "${field.id}"/>
+				#{/}
+				
+				
+				<p>
+				#{field 'kolicina'}
+					<label for = "${field.id}">kolicina</label>
+					<input type = "number" name = "${field.name}" id = "kolicina"/>
+				#{/}
+				
+				</p>
+				<p>
+				#{field 'jedinicnaCena'}
+					<label for = "${field.id}">jedinicnaCena</label>
+					<input type = "number" name = "${field.name}" id = "jedinicnaCena"/>
+				#{/}
+				
+				</p>
+				<p>
+				#{field 'rabat'}
+					<label for = "${field.id}">rabat</label>
+					<input type = "number" name = "${field.name}" id = "rabat"/>
+				#{/}
+				
+				</p>
+				<p>
+				#{field 'osnovica'}
+					<label for = "${field.id}">osnovica</label>
+					<input type = "number" name = "${field.name}" id = "osnovica"/>
+				#{/}
+				
+				</p>
+				<p>
+				#{field 'procenatPDV'}
+					<label for = "${field.id}">procenatPDV</label>
+					<input type = "number" name = "${field.name}" id = "procenatPDV"/>
+				#{/}
+				
+				</p>
+				<p>
+				#{field 'iznosPDV'}
+					<label for = "${field.id}">iznosPDV</label>
+					<input type = "number" name = "${field.name}" id = "iznosPDV"/>
+				#{/}
+				
+				</p>
+				<p>
+				#{field 'iznosStavke'}
+					<label for = "${field.id}">iznosStavke</label>
+					<input type = "number" name = "${field.name}" id = "iznosStavke"/>
+				#{/}
+				
+				</p>
+
+				<p>
+				#{field 'robaIliUsluga'}
+					<label for = "${field.id}">Roba ili usluga</label>
+					<select name = "${field.name}" id = "${field.id}"/>
+					#{list items:robaIliUsluge, as:'robaIliUsluga'}
+					<option value = "${robaIliUsluga.id}">${robaIliUsluga.nazivRIU}</option>
+					#{/list}
+					</select>
+					
+				#{/}
+				</p>
+								<p>
+				#{field 'otpremnica'}
+					<label for = "${field.id}">otpremnica</label>
+					<select name = "${field.name}" id = "${field.id}"/>
+					#{list items:otpremnice, as:'otpremnica'}
+					<option value = "${otpremnica.id}">${otpremnica.brojOtpremnice}</option>
+					#{/list}
+					</select>
+					
+				#{/}
+				</p>
+				
+				<div id = "formActions">
+					<input type = "submit" value = "Potvrda" id="sad" style="margin-left:6em"/>
+					<a href = "@{StavkeOtpremnice.show("")}" style="margin-left:1em">Rollback</a>
+				</div>			
+				
+		</form>	
+</p>
+</div>
+ 

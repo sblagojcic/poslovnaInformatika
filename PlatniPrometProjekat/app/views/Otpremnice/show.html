@@ -1,0 +1,182 @@
+#{extends 'standardForm.html' /}
+#{set title:'Cenovnik' /}
+
+<script>
+
+/* $(document).ready(function(){
+	$("#preduzecePickup").click(function(){
+		id = $(".highlighted").find(".id").html();
+		$("select").val(id);
+		
+	});
+	$("#poslovnaGodinaPickup").click(function(){
+		id = $(".highlighted").find(".id").html();
+		$("select").val(id);
+		
+	});
+	$("#poslovniPartnerPickup").click(function(){
+		id = $(".highlighted").find(".id").html();
+		$("select").val(id);
+		
+	});
+}); */
+
+function sync(item){
+    datumValute = item.find(".datumValute").html()
+    datumOtpremnice = item.find(".datumOtpremnice").html()
+    osnovica = item.find(".osnovica").html()
+    brojOtpremnice = item.find(".brojOtpremnice").html()
+    ukupanPDV = item.find(".ukupanPDV").html()
+    iznosZaPlacanje= item.find(".iznosZaPlacanje").html()
+    statusOtpremnice = item.find(".statusOtpremnice").html()
+    preduzece= item.find(".preduzece").html()
+    poslovnaGodina= item.find(".poslovnaGodina").html()
+    poslovniPartner= item.find(".poslovniPartner").html()
+    id = item.find(".id").html()
+    preduzece = item.find(".preduzece").html()
+    $("#datumValute").val(datumValute);
+    $("#datumOtpremnice").val(datumOtpremnice);
+    $("#osnovica").val(osnovica);
+    $("#brojOtpremnice").val(brojOtpremnice);
+    $("#ukupanPDV").val(ukupanPDV);
+    $("#iznosZaPlacanje").val(iznosZaPlacanje);
+    $("#statusOtpremnice").val(statusOtpremnice);
+    $("#poslovnaGodina").val(poslovnaGodina);
+    $("#poslovniPartner").val(poslovniPartner);
+    $("#preduzece").val(preduzece);
+    $("#id").val(id);
+}
+
+/* function nextForm(id){
+	$(location).attr('href', '/NaseljenaMesta/filter?id=&stavkeCenovnika=&datumValute=&postanskiBroj=&drzava=' +id);
+} */
+    
+
+</script>
+
+<p>
+<ul>
+  <li><a href="@{Otpremnice.show("filter")}" id = "search"><img src="@{'/public/images/search.gif'}"/></a></li>
+  <li><a href="#" id= "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
+  <li><a href="#" id= "pickup"><img src="@{'/public/images/zoom-pickup.gif'}"/></a></li>
+  <li><a href="#" id= "help"><img src="@{'/public/images/help.gif'}"/></a></li>
+  <li><a  id= "first"><img src="@{'/public/images/first.gif'}"/></a></li>
+  <li><a  id= "prev"><img src="@{'/public/images/prev.gif'}"/></a></li>
+  <li><a  id= "next"><img src="@{'/public/images/next.gif'}"/></a></li>
+  <li><a  id= "last"><img src="@{'/public/images/last.gif'}"/></a></li>
+  <li><a href="@{Otpremnice.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
+  <li><a href="@{Otpremnice.show("remove")}" id = "remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
+  <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
+</ul>
+</p>
+
+
+<h1>Otpremnice</h1>
+
+<table>
+	<tr class = "header">
+	   <th>broj otpremnica</th>
+	   <th>osnovica</th>
+	   <th>ukupan PDV</th>
+	   <th>iznos za placanje</th>
+	   <th>poslovni partner</th>
+	   <th>poslovna godina</th>
+	</tr>
+#{list items:otpremnice, as:'otpremnica'}
+	<tr>
+		<td class = "brojOtpremnice">${otpremnica.brojOtpremnice}</td>
+		<td class = "osnovica">${otpremnica.osnovica}</td>
+		<td class = "ukupanPDV">${otpremnica.ukupanPDV}</td>
+		<td class = "iznosZaPlacanje">${otpremnica.iznosZaPlacanje}</td>
+		<td class = "poslovniPartner">${otpremnica.poslovniPartner.nazivPartnera}</td>
+		<td class = "poslovnaGodina">${otpremnica.poslovnaGodina.godina}</td>
+		<td style = "visibility: hidden; max-width: 0px" class = "id">${otpremnica.id}</td>
+	</tr>
+#{/list}
+</table>
+
+#{set 'action'}
+	#{if mode == 'add'}
+		@{Otpremnice.add()}
+	#{/if}
+	
+	#{elseif mode == 'edit'}
+		@{Otpremnice.edit()}
+	#{/elseif}
+	
+	#{elseif mode == 'remove'}
+		@{Otpremnice.delete()}
+	#{/elseif}
+
+	#{else}
+		@{Otpremnice.filter()}
+	#{/else}
+#{/set}
+
+
+
+<div class = "panel">
+	<p>
+		<form action=${action} method="post">		
+				#{field 'id'}
+					<input type = "hidden" name = "${field.name}" id = "${field.id}"/>
+				#{/}
+				
+				<p>
+				#{field 'brojOtpremnice'}
+					<label for = "${field.id}">broj Otpremnica</label>
+					<input type = "number" name = "${field.name}" id = "${field.id}"/>
+				#{/}
+				
+				</p>
+				
+				<p>
+				#{field 'osnovica'}
+					<label for = "${field.id}">osnovica</label>
+					<input type = "number" name = "${field.name}" id = "${field.id}"/>
+				#{/}
+				
+				</p>
+				#{field 'ukupanPDV'}
+					<label for = "${field.id}">ukupan PDV</label>
+					<input type = "number" name = "${field.name}" id = "${field.id}"/>
+				#{/}
+				
+				</p>
+				<p>
+				#{field 'iznosZaPlacanje'}
+					<label for = "${field.id}">iznos za placanje</label>
+					<input type = "number" name = "${field.name}" id = "${field.id}"/>
+				#{/}
+				
+				</p>
+				
+				<p>
+				#{field 'poslovniPartner'}
+					<label for = "${field.id}">Poslovni partner</label>
+					<select name = "${field.name}" id = "${field.id}"/>
+					#{list items:poslovniPartneri, as:'poslovniPartner'}
+					<option value = "${poslovniPartner.id}">${poslovniPartner.nazivPartnera}</option>
+					#{/list}
+					</select>
+					#{/}
+				</p>
+				<p>
+				#{field 'poslovnaGodina'}
+					<label for = "${field.id}">Poslovna godina</label>
+					<select name = "${field.name}" id = "${field.id}"/>
+					#{list items:poslovneGodine, as:'poslovnaGodina'}
+					<option value = "${poslovnaGodina.id}">${poslovnaGodina.godina}</option>
+					#{/list}
+					</select>
+					#{/}
+				</p>
+				
+				<div id = "formActions">
+					<input type = "submit" value = "Potvrda" id="sad" style="margin-left:6em"/>
+					<a href = "@{Otpremnice.show("")}" style="margin-left:1em">Rollback</a>
+				</div>			
+				
+		</form>	
+</p>
+</div>

@@ -45,7 +45,7 @@ public class StavkeFakture extends Controller {
 	}
 	}
 	public static void filter(long robaIliUsluga, long faktura, float kolicina,float jedinicnaCena,float rabat,float osnovica, float procenatPDV, float iznosPDV, float iznosStavke){
-		List<StavkaFakture> stavkeFakture = StavkaCenovnika.find("byRobaIliUsluga_idAndCenovnik_idAndKolicinaAndJedinicnaCenaAndRabatAndOsnovicaAndProcenatPDVAndIznosPDVAndIznosStavke", robaIliUsluga,faktura,kolicina, jedinicnaCena, rabat, osnovica, procenatPDV, iznosPDV, iznosStavke).fetch();
+		List<StavkaFakture> stavkeFakture = StavkaFakture.find("byRobaIliUsluga_idAndCenovnik_idAndKolicinaAndJedinicnaCenaAndRabatAndOsnovicaAndProcenatPDVAndIznosPDVAndIznosStavke", robaIliUsluga,faktura,kolicina, jedinicnaCena, rabat, osnovica, procenatPDV, iznosPDV, iznosStavke).fetch();
 		String mode = "edit";
 		renderTemplate("StavkeFakture/show.html", stavkeFakture, mode);
 	}
