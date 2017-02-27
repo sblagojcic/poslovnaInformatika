@@ -27,25 +27,31 @@ public class RobaIliUsluga extends Model{
 	
 	@OneToMany(mappedBy="robaIliUsluga")
 	public List<StavkaCenovnika>stavkeCenovnika;
+	
+	@OneToMany(mappedBy="robaIliUsluga")
+	public List<StavkaOtpremnice>stavkeOtpremnice;
+	
+	@OneToMany(mappedBy="robaIliUsluga")
+	public List<StavkaNarudzbenice>stavkeNarudzbenice;
 
-
-
-	public RobaIliUsluga(String nazivRIU, String jedinicaMere, GrupaRobe grupaRobe,
-			List<StavkaFakture> stavkeFakture, List<StavkaCenovnika> stavkeCenovnika) {
+	public RobaIliUsluga(String nazivRIU, String jedinicaMere, GrupaRobe grupaRobe, List<StavkaFakture> stavkeFakture,
+			List<StavkaCenovnika> stavkeCenovnika, List<StavkaOtpremnice> stavkeOtpremnice,
+			List<StavkaNarudzbenice> stavkeNarudzbenice) {
 		super();
 		this.nazivRIU = nazivRIU;
 		this.jedinicaMere = jedinicaMere;
 		this.grupaRobe = grupaRobe;
 		this.stavkeFakture = stavkeFakture;
 		this.stavkeCenovnika = stavkeCenovnika;
+		this.stavkeOtpremnice = stavkeOtpremnice;
+		this.stavkeNarudzbenice = stavkeNarudzbenice;
 	}
-
-
 
 	public RobaIliUsluga() {
 		super();
 	}
-	
-	
+
+
+
 
 }

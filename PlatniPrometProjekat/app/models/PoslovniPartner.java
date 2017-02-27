@@ -29,11 +29,15 @@ public class PoslovniPartner extends Model{
 	
 	@OneToMany(mappedBy="poslovniPartner")
 	public List<Faktura>faktura;
+	
+	@OneToMany(mappedBy="poslovniPartner")
+	public List<Otpremnica>otpremnice;
+	
+	@OneToMany(mappedBy="poslovniPartner")
+	public List<Narudzbenica>narudzbenice;
 
-
-
-	public PoslovniPartner(String nazivPartnera, String vrstaPartnera, String ulicaIBroj,
-			Mesto mesto, Preduzece preduzece, List<Faktura> faktura) {
+	public PoslovniPartner(String nazivPartnera, String vrstaPartnera, String ulicaIBroj, Mesto mesto,
+			Preduzece preduzece, List<Faktura> faktura, List<Otpremnica> otpremnice, List<Narudzbenica> narudzbenice) {
 		super();
 		this.nazivPartnera = nazivPartnera;
 		this.vrstaPartnera = vrstaPartnera;
@@ -41,13 +45,16 @@ public class PoslovniPartner extends Model{
 		this.mesto = mesto;
 		this.preduzece = preduzece;
 		this.faktura = faktura;
+		this.otpremnice = otpremnice;
+		this.narudzbenice = narudzbenice;
 	}
-
-
 
 	public PoslovniPartner() {
 		super();
 	}
+
+
+
 	
 	
 	

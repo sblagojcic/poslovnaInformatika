@@ -47,11 +47,14 @@ public class Faktura extends Model{
 	
 	@ManyToOne
 	public PoslovniPartner poslovniPartner;
+	
+	@ManyToOne
+	public Otpremnica otpremnica;
 
-
-	public Faktura(int brojFaktura, Date datumFakture, Date datumValute, float osnovica,
-			float ukupanPDV, float iznosZaPlacanje, String statusFakture, List<StavkaFakture> stavkeFakture,
-			PoslovnaGodina poslovnaGodina, Preduzece preduzece, PoslovniPartner poslovniPartner) {
+	public Faktura(int brojFaktura, Date datumFakture, Date datumValute, float osnovica, float ukupanPDV,
+			float iznosZaPlacanje, String statusFakture, List<StavkaFakture> stavkeFakture,
+			PoslovnaGodina poslovnaGodina, Preduzece preduzece, PoslovniPartner poslovniPartner,
+			Otpremnica otpremnica) {
 		super();
 		this.brojFaktura = brojFaktura;
 		this.datumFakture = datumFakture;
@@ -64,14 +67,8 @@ public class Faktura extends Model{
 		this.poslovnaGodina = poslovnaGodina;
 		this.preduzece = preduzece;
 		this.poslovniPartner = poslovniPartner;
+		this.otpremnica = otpremnica;
 	}
-
-
-
-
-
-
-
 
 	public Faktura() {
 		super();

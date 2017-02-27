@@ -21,19 +21,29 @@ public class PoslovnaGodina extends Model {
 	
 	@OneToMany(mappedBy="poslovnaGodina")
 	public List<Faktura>fakture;
+	
+	@OneToMany(mappedBy="poslovnaGodina")
+	public List<Otpremnica>otpremnice;
+	
+	@OneToMany(mappedBy="poslovnaGodina")
+	public List<Narudzbenica>narudzbenice;
 
-
-	public PoslovnaGodina(int godina, boolean zakljucena, List<Faktura> fakture) {
+	public PoslovnaGodina(int godina, boolean zakljucena, List<Faktura> fakture, List<Otpremnica> otpremnice,
+			List<Narudzbenica> narudzbenice) {
 		super();
 		this.godina = godina;
 		this.zakljucena = zakljucena;
 		this.fakture = fakture;
+		this.otpremnice = otpremnice;
+		this.narudzbenice = narudzbenice;
 	}
-
 
 	public PoslovnaGodina() {
 		super();
 	}
+
+
+
 	
 	
 	
