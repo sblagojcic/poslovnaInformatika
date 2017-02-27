@@ -1,33 +1,15 @@
 #{extends 'standardForm.html' /}
-#{set title:'Cenovnik' /}
+#{set title:'Fakture' /}
 
 <script>
 
-/* $(document).ready(function(){
-	$("#preduzecePickup").click(function(){
-		id = $(".highlighted").find(".id").html();
-		$("select").val(id);
-		
-	});
-	$("#poslovnaGodinaPickup").click(function(){
-		id = $(".highlighted").find(".id").html();
-		$("select").val(id);
-		
-	});
-	$("#poslovniPartnerPickup").click(function(){
-		id = $(".highlighted").find(".id").html();
-		$("select").val(id);
-		
-	});
-}); */
+
 
 function sync(item){
     datumValute = item.find(".datumValute").html()
     datumFakture = item.find(".datumFakture").html()
-    osnovica = item.find(".osnovica").html()
+    
     brojFaktura = item.find(".brojFaktura").html()
-    ukupanPDV = item.find(".ukupanPDV").html()
-    iznosZaPlacanje= item.find(".iznosZaPlacanje").html()
     statusFakture = item.find(".statusFakture").html()
     preduzece= item.find(".preduzece").html()
     poslovnaGodina= item.find(".poslovnaGodina").html()
@@ -35,11 +17,8 @@ function sync(item){
     id = item.find(".id").html()
     preduzece = item.find(".preduzece").html()
     $("#datumValute").val(datumValute);
-    $("#datumFakture").val(datumFakture);
-    $("#osnovica").val(osnovica);
+    $("#datumFakture").val(datumFakture);  
     $("#brojFaktura").val(brojFaktura);
-    $("#ukupanPDV").val(ukupanPDV);
-    $("#iznosZaPlacanje").val(iznosZaPlacanje);
     $("#statusFakture").val(statusFakture);
     $("#poslovnaGodina").val(poslovnaGodina);
     $("#poslovniPartner").val(poslovniPartner);
@@ -47,9 +26,7 @@ function sync(item){
     $("#id").val(id);
 }
 
-/* function nextForm(id){
-	$(location).attr('href', '/NaseljenaMesta/filter?id=&stavkeCenovnika=&datumValute=&postanskiBroj=&drzava=' +id);
-} */
+
     
 
 </script>
@@ -66,7 +43,7 @@ function sync(item){
   <li><a  id= "last"><img src="@{'/public/images/last.gif'}"/></a></li>
   <li><a href="@{Fakture.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
   <li><a href="@{Fakture.show("remove")}" id = "remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
-  <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
+  <li><a href="@{Fakture.show("generate")}" id = "generate"><img src="@{'/public/images/gen.png'}"/></a></li>
 </ul>
 </p>
 
@@ -112,6 +89,10 @@ function sync(item){
 		@{Fakture.edit()}
 	#{/elseif}
 	
+	#{elseif mode == 'generate'}
+		@{Otpremnice.generate()}
+	#{/elseif}
+	
 	#{elseif mode == 'remove'}
 		@{Fakture.delete()}
 	#{/elseif}
@@ -151,26 +132,7 @@ function sync(item){
 				#{/}
 				
 				</p>
-				<p>
-				#{field 'osnovica'}
-					<label for = "${field.id}">osnovica</label>
-					<input type = "number" name = "${field.name}" id = "${field.id}"/>
-				#{/}
 				
-				</p>
-				#{field 'ukupanPDV'}
-					<label for = "${field.id}">ukupan PDV</label>
-					<input type = "number" name = "${field.name}" id = "${field.id}"/>
-				#{/}
-				
-				</p>
-				<p>
-				#{field 'iznosZaPlacanje'}
-					<label for = "${field.id}">iznos za placanje</label>
-					<input type = "number" name = "${field.name}" id = "${field.id}"/>
-				#{/}
-				
-				</p>
 				<p>
 				#{field 'statusFakture'}
 					<label for = "${field.id}">status fakture</label>
