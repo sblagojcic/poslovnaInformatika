@@ -4,11 +4,9 @@
 <script>
 
 $(document).ready(function(){
-	$("#preduzecePickup").click(function(){
-		id = $(".highlighted").find(".id").html();
-		$("select").val(id);
-		
-	});
+	
+	
+	
 });
 
 function sync(item){
@@ -44,7 +42,8 @@ function sync(item){
   <li><a  id= "last"><img src="@{'/public/images/last.gif'}"/></a></li>
   <li><a href="@{Cenovnici.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
   <li><a href="@{Cenovnici.show("remove")}" id = "remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
-  <li><a href="#" id = "nextform"><img src="@{'/public/images/nextform.gif'}"/></a></li>
+  <li><a href="@{Cenovnici.show("copy")}" id = "copy"><img src="@{'/public/images/copy.png'}"/></a></li>
+
 </ul>
 </p>
 
@@ -77,7 +76,11 @@ function sync(item){
 	#{elseif mode == 'remove'}
 		@{Cenovnici.delete()}
 	#{/elseif}
-
+	
+	#{elseif mode == 'copy'}
+		@{Cenovnici.copy()}
+	#{/elseif}
+	
 	#{else}
 		@{Cenovnici.filter()}
 	#{/else}
@@ -109,8 +112,16 @@ function sync(item){
 					#{/list}
 					</select>
 					
-					 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#preduzeceModal">...	</button>
+					 #{/}
+				</p>
+				
+			
+				<p>
+				#{field 'procenat'}
+					<label id="procenatL" for = "${field.id}">procenat</label>
+					<input type = "number" name = "${field.name}" id = "procenat"/>
 				#{/}
+				
 				</p>
 				
 				<div id = "formActions">
@@ -121,41 +132,3 @@ function sync(item){
 		</form>	
 </p>
 </div>
- <!-- Modal -->
-  <div class="modal fade" id="preduzeceModal" role="dialog">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-      <div class="modal-header">
-      	Preduzece
-      </div>
-      <div class="modal-body">
-	    <table style = "padding:2em">
-		<tr class = "header">
-		    
-		   <th>Naziv</th>
-		   <th>adresa</th>
-		   <th>PIB</th>
-		   <th>telefon</th>
-		   <th>email</th>
-		</tr>
-		#{list items:preduzeca, as:'preduzece'}
-		<tr>
-			<td class = "naziv">${preduzece.nazivPreduzeca}</td>
-			<td class = "ulicaIBroj">${preduzece.ulicaIBroj}</td>
-			<td class = "PIB">${preduzece.PIB}</td>
-			<td class = "telefon">${preduzece.telefon}</td>
-			<td class = "email">${preduzece.email}</td>
-			<td style = "visibility: hidden; max-width: 0px" class = "id">${preduzece.id}</td>
-		</tr>
-		#{/list}
-		</table>
-		<div class="modal-footer">
-			<input id = "preduzecePickup" type = "button" value = "izbor"/>
-		</div>
-		</div>
-      </div>
-    </div>
-   </div>
-</div>
-
