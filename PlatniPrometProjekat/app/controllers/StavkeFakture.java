@@ -50,7 +50,7 @@ public class StavkeFakture extends Controller {
 		String mode = "edit";
 		renderTemplate("StavkeFakture/show.html", stavkeFakture, mode);
 	}
-	public static void edit(long robaIliUsluga, long faktura, float kolicina,float jedinicnaCena,float rabat,float osnovica, float procenatPDV, float iznosPDV, float iznosStavke, long id){
+	public static void edit(@Required float kolicina,float rabat,@Required long robaIliUsluga, long faktura, long id){
 		StavkaFakture stavkaFakture = StavkaFakture.findById(id);
 		RobaIliUsluga roba=RobaIliUsluga.findById(robaIliUsluga);
 		stavkaFakture.kolicina=kolicina;
