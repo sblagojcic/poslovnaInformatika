@@ -44,6 +44,8 @@ function sync(item){
   <li><a href="@{Fakture.show("add")}" id = "add"><img src="@{'/public/images/add.gif'}"/></a></li>
   <li><a href="@{Fakture.show("remove")}" id = "remove"><img src="@{'/public/images/remove.gif'}"/></a></li>
   <li><a href="@{Fakture.show("generate")}" id = "generate"><img src="@{'/public/images/gen.png'}"/></a></li>
+  <li><a href="@{Fakture.show("export")}" id = "export"><img src="@{'/public/images/add.gif'}"/></a></li>
+	
 </ul>
 </p>
 
@@ -95,6 +97,10 @@ function sync(item){
 	
 	#{elseif mode == 'remove'}
 		@{Fakture.delete()}
+	#{/elseif}
+	
+	#{elseif mode == 'export'}
+		@{Fakture.export()}
 	#{/elseif}
 
 	#{else}

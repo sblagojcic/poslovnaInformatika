@@ -1,5 +1,8 @@
 package controllers;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -8,8 +11,8 @@ import models.PoslovnaGodina;
 import models.PoslovniPartner;
 import models.Preduzece;
 import models.StavkaFakture;
-import play.data.validation.*;
 import play.data.validation.Error;
+import play.data.validation.Required;
 import play.mvc.Controller;
 
 public class Fakture extends Controller {
@@ -78,5 +81,40 @@ public class Fakture extends Controller {
 		faktura.delete();
 		show("");
 	}
+	public static void export(long id) throws IOException{
+		String FILENAME = "D:\\filename.xml";
 
+		Faktura faktura = Faktura.findById(id);
+		String xmlString="<?xml version='1.0' encoding='UTF-8'?>\n"+"<Faktura> \n"
+				+"\t<brojFaktura>"+faktura.brojFaktura+"</brojFaktura>\n"
+				+"\t<datumFakture>"+faktura.datumFakture+"</datumFakture>\n"
+				+"\t<datumValute>"+faktura.datumValute+"</datumValute>\n"
+				+"\t<osnovica>"+faktura.osnovica+"</osnovica>\n"
+				+"\t<ukupanPDV>"+faktura.ukupanPDV+"</ukupanPDV>\n"
+				+"\t<iznosZaPlacanje>"+faktura.iznosZaPlacanje+"</iznosZaPlacanje>\n"
+				+"\t<statusFakture>"+faktura.statusFakture+"</statusFakture>\n"
+				+"\t<poslovniPartner>"+faktura.poslovniPartner.nazivPartnera+"</poslovniPartner>\n"
+				+"\t<poslovnaGodina>"+faktura.poslovnaGodina.godina+"</poslovnaGodina>\n"
+				+"\t<stavkeFakture>\n";
+		for (StavkaFakture stavka : faktura.stavkeFakture) {
+			xmlString=xmlString+"\t\t<stavkaFakture>\n"
+					+"\t\t\t<kolicina>"+stavka.kolicina+"</kolicina>\n"
+					+"\t\t\t<jedinicnaCena>"+stavka.jedinicnaCena+"</jedinicnaCena>\n"
+					+"\t\t\t<rabat>"+stavka.rabat+"</rabat>\n"
+					+"\t\t\t<osnovica>"+stavka.osnovica+"</osnovica>\n"
+					+"\t\t\t<procenatPDV>"+stavka.procenatPDV+"</procenatPDV>\n"
+					+"\t\t\t<iznosPDV>"+stavka.iznosPDV+"</iznosPDV>\n"
+					+"\t\t\t<iznosStavke>"+stavka.iznosStavke+"</iznosStavke>\n"
+					+"\t\t\t<robaIliUsluga>"+stavka.robaIliUsluga.nazivRIU+"</robaIliUsluga>\n"
+					+"\t\t</stavkaFakture>\n";
+		}
+		xmlString=xmlString+"\t</stavkeFakture>\n"
+				+"</Faktura> \n";
+		System.out.println(xmlString);
+		FileWriter fw = new FileWriter(FILENAME);
+		BufferedWriter bw = new BufferedWriter(fw);
+		bw.write(xmlString);
+		bw.close();
+		show("");
+	}	
 }
