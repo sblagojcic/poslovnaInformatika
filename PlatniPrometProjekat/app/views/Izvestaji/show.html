@@ -1,0 +1,111 @@
+#{extends 'standardForm.html' /}
+#{set title:'Izvestaji' /}
+
+<script>
+
+
+
+function sync(item){
+     id = item.find(".id").html()
+    $("#id").val(id);
+}
+
+
+    
+
+</script>
+
+<p>
+<ul>
+  <li><a href="#" id= "refresh"><img src="@{'/public/images/refresh.gif'}"/></a></li>
+  <li><a href="#" id= "pickup"><img src="@{'/public/images/zoom-pickup.gif'}"/></a></li>
+  <li><a href="#" id= "help"><img src="@{'/public/images/help.gif'}"/></a></li>
+  <li><a  id= "first"><img src="@{'/public/images/first.gif'}"/></a></li>
+  <li><a  id= "prev"><img src="@{'/public/images/prev.gif'}"/></a></li>
+  <li><a  id= "next"><img src="@{'/public/images/next.gif'}"/></a></li>
+  <li><a  id= "last"><img src="@{'/public/images/last.gif'}"/></a></li>
+  <li><a href="@{Izvestaji.show("report1")}" id = "report1"><img src="@{'/public/images/add.gif'}"/></a></li>
+  <li><a href="@{Izvestaji.show("report2")}" id = "report2"><img src="@{'/public/images/edit.gif'}"/></a></li>
+	
+</ul>
+</p>
+
+
+<h1>Izvestaji</h1>
+
+<table>
+	<tr class = "header">
+	   <th>broj faktura</th>
+	   <th>datum valute</th>
+	   <th>datum valute</th>
+	   <th>osnovica</th>
+	   <th>ukupan PDV</th>
+	   <th>iznos za placanje</th>
+	   <th>status fakture</th>
+	   <th>preduzece</th>
+	   <th>poslovna godina</th>
+	   <th>poslovni partner</th>
+	</tr>
+#{list items:fakture, as:'faktura'}
+	<tr>
+		<td class = "brojFaktura">${faktura.brojFaktura}</td>
+		<td class = "datumValute">${faktura.datumValute}</td>
+		<td class = "datumFakture">${faktura.datumFakture}</td>
+		<td class = "osnovica">${faktura.osnovica}</td>
+		<td class = "ukupanPDV">${faktura.ukupanPDV}</td>
+		<td class = "iznosZaPlacanje">${faktura.iznosZaPlacanje}</td>
+		<td class = "statusFakture">${faktura.statusFakture}</td>
+		<td class = "poslovniPartner">${faktura.poslovniPartner.nazivPartnera}</td>
+		<td class = "poslovnaGodina">${faktura.poslovnaGodina.godina}</td>
+		<td class = "preduzece">${faktura.preduzece.nazivPreduzeca}</td>
+		<td style = "visibility: hidden; max-width: 0px" class = "id">${faktura.id}</td>
+	</tr>
+#{/list}
+</table>
+
+#{set 'action'}
+	#{if mode == 'report1'}
+		@{Izvestaji.report1()}
+	#{/if}
+	#{if mode == 'report2'}
+		@{Izvestaji.report2()}
+	#{/if}
+	#{else}
+		@{Izvestaji.show()}
+	#{/else}
+#{/set}
+
+
+
+<div class = "panel">
+	<p>
+		<form action=${action} method="post">		
+				#{field 'id'}
+					<input type = "hidden" name = "${field.name}" id = "${field.id}"/>
+				#{/}
+				
+				
+				<p>
+				#{field 'datumPocetka'}
+					<label for = "${field.id}">Pocetni datum</label>
+					<input type = "date" name = "${field.name}" id = "${field.id}"/>
+				#{/}
+				
+				</p>
+				<p>
+				#{field 'datumZavrsetka'}
+					<label for = "${field.id}">Zavrsni datum</label>
+					<input type = "date" name = "${field.name}" id = "${field.id}"/>
+				#{/}
+				
+				</p>
+				
+				
+				<div id = "formActions">
+					<input type = "submit" value = "Potvrda" id="sad" style="margin-left:6em"/>
+					<a href = "@{Izvestaji.show("")}" style="margin-left:1em">Rollback</a>
+				</div>			
+				
+		</form>	
+</p>
+</div>

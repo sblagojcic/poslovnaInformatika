@@ -49,6 +49,9 @@ FROM
 			<groupExpression><![CDATA[$F{faktura_brojFaktura}]]></groupExpression>
 		</group>
 	</subDataset>
+	<parameter name="datun" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
      faktura.`id` AS faktura_id,
@@ -75,6 +78,9 @@ FROM
 	<field name="faktura_osnovica" class="java.lang.Float"/>
 	<variable name="pocetniDatum" class="java.util.Date"/>
 	<variable name="zavrsniDatum" class="java.util.Date"/>
+	<variable name="ukupnoOsnovica" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[$F{faktura_osnovica}]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -169,6 +175,10 @@ FROM
 			<line>
 				<reportElement x="0" y="0" width="555" height="2" uuid="d70123eb-cd06-4b75-b300-0cdb2b853888"/>
 			</line>
+			<textField>
+				<reportElement x="267" y="2" width="100" height="20" uuid="449a6f68-0045-4689-9614-38fed2508bc9"/>
+				<textFieldExpression><![CDATA[$V{ukupnoOsnovica}]]></textFieldExpression>
+			</textField>
 		</band>
 	</summary>
 </jasperReport>
