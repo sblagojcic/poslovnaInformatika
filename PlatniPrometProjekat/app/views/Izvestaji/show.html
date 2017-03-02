@@ -24,8 +24,8 @@ function sync(item){
   <li><a  id= "prev"><img src="@{'/public/images/prev.gif'}"/></a></li>
   <li><a  id= "next"><img src="@{'/public/images/next.gif'}"/></a></li>
   <li><a  id= "last"><img src="@{'/public/images/last.gif'}"/></a></li>
-  <li><a href="@{Izvestaji.show("report1")}" id = "report1"><img src="@{'/public/images/add.gif'}"/></a></li>
-  <li><a href="@{Izvestaji.show("report2")}" id = "report2"><img src="@{'/public/images/edit.gif'}"/></a></li>
+  <li><a href="@{Izvestaji.show("report1")}" id = "report1"><img src="@{'/public/images/kif.png'}"/></a></li>
+  <li><a href="@{Izvestaji.show("report2")}" id = "report2"><img src="@{'/public/images/fakt.png'}"/></a></li>
 	
 </ul>
 </p>
@@ -36,7 +36,7 @@ function sync(item){
 <table>
 	<tr class = "header">
 	   <th>broj faktura</th>
-	   <th>datum valute</th>
+	   <th>datum fakture</th>
 	   <th>datum valute</th>
 	   <th>osnovica</th>
 	   <th>ukupan PDV</th>
@@ -48,9 +48,9 @@ function sync(item){
 	</tr>
 #{list items:fakture, as:'faktura'}
 	<tr>
-		<td class = "brojFaktura">${faktura.brojFaktura}</td>
-		<td class = "datumValute">${faktura.datumValute}</td>
+		<td class = "brojFaktura">${faktura.brojFaktura}</td>				
 		<td class = "datumFakture">${faktura.datumFakture}</td>
+		<td class = "datumValute">${faktura.datumValute}</td>
 		<td class = "osnovica">${faktura.osnovica}</td>
 		<td class = "ukupanPDV">${faktura.ukupanPDV}</td>
 		<td class = "iznosZaPlacanje">${faktura.iznosZaPlacanje}</td>

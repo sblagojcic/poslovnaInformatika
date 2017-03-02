@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="kif" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b94c065f-5bba-4d06-8a6d-6f15ef04a562">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.1"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="table">
@@ -44,12 +44,16 @@ FROM
 		<field name="poslovnagodina_godina" class="java.lang.Integer"/>
 		<field name="poslovnipartner_nazivPartnera" class="java.lang.String"/>
 		<field name="faktura_osnovica" class="java.lang.Float"/>
-		<variable name="ukupnoOsnovica" class="java.lang.Float"/>
+		<variable name="ukupnoOsnovica" class="java.lang.Float" calculation="Sum"/>
+		<variable name="ukupnoPdv" class="java.lang.Float" calculation="Sum"/>
 		<group name="faktura_brojFaktura">
 			<groupExpression><![CDATA[$F{faktura_brojFaktura}]]></groupExpression>
 		</group>
 	</subDataset>
-	<parameter name="datun" class="java.util.Date">
+	<parameter name="datumPocetka" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="datumZavrsetka" class="java.sql.Timestamp">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -62,10 +66,14 @@ FROM
      faktura.`poslovniPartner_id` AS faktura_poslovniPartner_id,
      poslovnagodina.`godina` AS poslovnagodina_godina,
      poslovnipartner.`nazivPartnera` AS poslovnipartner_nazivPartnera,
-     faktura.`osnovica` AS faktura_osnovica
+     faktura.`osnovica` AS faktura_osnovica,
+     faktura.`datumFakture` AS faktura_datumFakture
 FROM
      `poslovnagodina` poslovnagodina INNER JOIN `faktura` faktura ON poslovnagodina.`id` = faktura.`poslovnaGodina_id`
-     INNER JOIN `poslovnipartner` poslovnipartner ON faktura.`poslovniPartner_id` = poslovnipartner.`id`]]>
+     INNER JOIN `poslovnipartner` poslovnipartner ON faktura.`poslovniPartner_id` = poslovnipartner.`id`
+
+WHERE
+     faktura.`datumFakture` between $P{datumPocetka} and $P{datumZavrsetka}]]>
 	</queryString>
 	<field name="faktura_id" class="java.lang.Long"/>
 	<field name="faktura_brojFaktura" class="java.lang.Integer"/>
@@ -76,10 +84,17 @@ FROM
 	<field name="poslovnagodina_godina" class="java.lang.Integer"/>
 	<field name="poslovnipartner_nazivPartnera" class="java.lang.String"/>
 	<field name="faktura_osnovica" class="java.lang.Float"/>
+	<field name="faktura_datumFakture" class="java.sql.Timestamp"/>
 	<variable name="pocetniDatum" class="java.util.Date"/>
 	<variable name="zavrsniDatum" class="java.util.Date"/>
 	<variable name="ukupnoOsnovica" class="java.lang.Float" calculation="Sum">
 		<variableExpression><![CDATA[$F{faktura_osnovica}]]></variableExpression>
+	</variable>
+	<variable name="ukupnoPdv" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[$F{faktura_ukupanPDV}]]></variableExpression>
+	</variable>
+	<variable name="ukupnoIznos" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[$F{faktura_iznosZaPlacanje}]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -115,31 +130,65 @@ FROM
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="105" width="53" height="20" uuid="e4d0d8ab-458c-4b85-a0ab-eb5f791655cf"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[br. fakture]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="53" y="105" width="100" height="20" uuid="0fc7b759-5311-4d1f-a6d0-cc3fbc970c56"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[osnovica]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="153" y="105" width="100" height="20" uuid="f192c50d-ea2e-4039-a578-26c810cb5aed"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[ukupan PDV]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="253" y="105" width="100" height="20" uuid="502b975c-f78b-4680-81c0-d6cbb4c7a494"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[iznos za placanje]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="353" y="105" width="100" height="20" uuid="b541a66c-bd8b-4be0-8631-d123af072434"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[poslovna godina]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="453" y="105" width="100" height="20" uuid="0f3cfdf9-c9ca-4aee-bb3f-3e2625dd8a3a"/>
+				<reportElement x="455" y="105" width="100" height="20" uuid="0f3cfdf9-c9ca-4aee-bb3f-3e2625dd8a3a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[poslovni partner]]></text>
 			</staticText>
 			<line>
 				<reportElement x="-10" y="125" width="565" height="1" uuid="093cbfa9-28fa-447d-8cd8-57d123ce4c52"/>
 			</line>
+			<staticText>
+				<reportElement x="124" y="59" width="59" height="20" uuid="fcaeb8bc-22d2-4459-8f0d-2cbeac044661"/>
+				<text><![CDATA[za period od:]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement x="193" y="59" width="100" height="20" uuid="6d62c0f9-08ba-4ca6-9550-00075426cf65"/>
+				<textFieldExpression><![CDATA[$P{datumPocetka}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="253" y="59" width="100" height="20" uuid="3a218b04-06fe-409c-95c1-f9340b482afe"/>
+				<text><![CDATA[do:]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement x="277" y="59" width="100" height="20" uuid="d938fe79-f051-4656-8fa0-7b12ecf85953"/>
+				<textFieldExpression><![CDATA[$P{datumZavrsetka}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<detail>
@@ -175,10 +224,28 @@ FROM
 			<line>
 				<reportElement x="0" y="0" width="555" height="2" uuid="d70123eb-cd06-4b75-b300-0cdb2b853888"/>
 			</line>
-			<textField>
-				<reportElement x="267" y="2" width="100" height="20" uuid="449a6f68-0045-4689-9614-38fed2508bc9"/>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="53" y="2" width="100" height="20" uuid="449a6f68-0045-4689-9614-38fed2508bc9"/>
 				<textFieldExpression><![CDATA[$V{ukupnoOsnovica}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="153" y="2" width="100" height="20" uuid="009fc79e-7d34-418f-a482-44f07342e4ac"/>
+				<textFieldExpression><![CDATA[$V{ukupnoPdv}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="253" y="2" width="100" height="20" uuid="073c6e6c-9c6d-42ca-8cd1-7fa26182debd"/>
+				<textElement>
+					<font size="11" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{ukupnoIznos}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="2" width="53" height="20" uuid="f9db26f9-da07-49d1-891e-37e6523d3068"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
 		</band>
 	</summary>
 </jasperReport>

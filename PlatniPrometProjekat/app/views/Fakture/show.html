@@ -55,7 +55,7 @@ function sync(item){
 <table>
 	<tr class = "header">
 	   <th>broj faktura</th>
-	   <th>datum valute</th>
+	   <th>datum fakture</th>
 	   <th>datum valute</th>
 	   <th>osnovica</th>
 	   <th>ukupan PDV</th>
@@ -68,8 +68,8 @@ function sync(item){
 #{list items:fakture, as:'faktura'}
 	<tr>
 		<td class = "brojFaktura">${faktura.brojFaktura}</td>
-		<td class = "datumValute">${faktura.datumValute}</td>
 		<td class = "datumFakture">${faktura.datumFakture}</td>
+		<td class = "datumValute">${faktura.datumValute}</td>
 		<td class = "osnovica">${faktura.osnovica}</td>
 		<td class = "ukupanPDV">${faktura.ukupanPDV}</td>
 		<td class = "iznosZaPlacanje">${faktura.iznosZaPlacanje}</td>
