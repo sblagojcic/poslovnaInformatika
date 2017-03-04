@@ -50,10 +50,10 @@ FROM
 			<groupExpression><![CDATA[$F{faktura_brojFaktura}]]></groupExpression>
 		</group>
 	</subDataset>
-	<parameter name="datumPocetka" class="java.sql.Timestamp">
+	<parameter name="datumPocetka" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="datumZavrsetka" class="java.sql.Timestamp">
+	<parameter name="datumZavrsetka" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -84,7 +84,7 @@ WHERE
 	<field name="poslovnagodina_godina" class="java.lang.Integer"/>
 	<field name="poslovnipartner_nazivPartnera" class="java.lang.String"/>
 	<field name="faktura_osnovica" class="java.lang.Float"/>
-	<field name="faktura_datumFakture" class="java.sql.Timestamp"/>
+	<field name="faktura_datumFakture" class="java.util.Date"/>
 	<variable name="pocetniDatum" class="java.util.Date"/>
 	<variable name="zavrsniDatum" class="java.util.Date"/>
 	<variable name="ukupnoOsnovica" class="java.lang.Float" calculation="Sum">

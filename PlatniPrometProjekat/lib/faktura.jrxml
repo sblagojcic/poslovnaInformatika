@@ -3,7 +3,76 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<subDataset name="dataset1" uuid="dacf3fb3-f02c-45de-add6-618a9720ab1b"/>
+	<subDataset name="fakturaZaKupca" uuid="dacf3fb3-f02c-45de-add6-618a9720ab1b">
+		<queryString language="SQL">
+			<![CDATA[SELECT
+     faktura.`brojFaktura` AS faktura_brojFaktura,
+     faktura.`datumFakture` AS faktura_datumFakture,
+     faktura.`datumValute` AS faktura_datumValute,
+     faktura.`iznosZaPlacanje` AS faktura_iznosZaPlacanje,
+     faktura.`osnovica` AS faktura_osnovica,
+     faktura.`ukupanPDV` AS faktura_ukupanPDV,
+     gruparobe.`nazivGrupe` AS gruparobe_nazivGrupe,
+     mesto.`nazivMesta` AS mesto_nazivMesta,
+     poslovnipartner.`nazivPartnera` AS poslovnipartner_nazivPartnera,
+     poslovnipartner.`ulicaIBroj` AS poslovnipartner_ulicaIBroj,
+     preduzece.`PIB` AS preduzece_PIB,
+     preduzece.`email` AS preduzece_email,
+     preduzece.`nazivPreduzeca` AS preduzece_nazivPreduzeca,
+     preduzece.`telefon` AS preduzece_telefon,
+     preduzece.`ulicaIBroj` AS preduzece_ulicaIBroj,
+     robailiusluga.`jedinicaMere` AS robailiusluga_jedinicaMere,
+     robailiusluga.`nazivRIU` AS robailiusluga_nazivRIU,
+     stavkacenovnika.`cena` AS stavkacenovnika_cena,
+     stavkafakture.`iznosPDV` AS stavkafakture_iznosPDV,
+     stavkafakture.`iznosStavke` AS stavkafakture_iznosStavke,
+     stavkafakture.`jedinicnaCena` AS stavkafakture_jedinicnaCena,
+     stavkafakture.`kolicina` AS stavkafakture_kolicina,
+     stavkafakture.`osnovica` AS stavkafakture_osnovica,
+     stavkafakture.`procenatPDV` AS stavkafakture_procenatPDV,
+     stavkafakture.`rabat` AS stavkafakture_rabat,
+     stopapdv.`procenatPDV` AS stopapdv_procenatPDV,
+     faktura.`id` AS faktura_id
+FROM
+     `pdv` pdv INNER JOIN `gruparobe` gruparobe ON pdv.`id` = gruparobe.`PDV_id`
+     INNER JOIN `preduzece` preduzece ON gruparobe.`preduzece_id` = preduzece.`id`
+     INNER JOIN `robailiusluga` robailiusluga ON gruparobe.`id` = robailiusluga.`grupaRobe_id`
+     INNER JOIN `stavkacenovnika` stavkacenovnika ON robailiusluga.`id` = stavkacenovnika.`robaIliUsluga_id`
+     INNER JOIN `stavkafakture` stavkafakture ON robailiusluga.`id` = stavkafakture.`robaIliUsluga_id`
+     INNER JOIN `faktura` faktura ON stavkafakture.`faktura_id` = faktura.`id`
+     AND preduzece.`id` = faktura.`preduzece_id`
+     INNER JOIN `poslovnipartner` poslovnipartner ON faktura.`poslovniPartner_id` = poslovnipartner.`id`
+     AND preduzece.`id` = poslovnipartner.`preduzece_id`
+     INNER JOIN `mesto` mesto ON poslovnipartner.`mesto_id` = mesto.`id`
+     AND mesto.`id` = preduzece.`mesto_id`
+     INNER JOIN `cenovnik` cenovnik ON preduzece.`id` = cenovnik.`preduzece_id`
+     AND cenovnik.`id` = stavkacenovnika.`cenovnik_id`
+     INNER JOIN `stopapdv` stopapdv ON pdv.`id` = stopapdv.`PDV_id`]]>
+		</queryString>
+		<field name="faktura_brojFaktura" class="java.lang.Integer"/>
+		<field name="robailiusluga_jedinicaMere" class="java.lang.String"/>
+		<field name="preduzece_PIB" class="java.lang.Integer"/>
+		<field name="stavkafakture_rabat" class="java.lang.Float"/>
+		<field name="preduzece_telefon" class="java.lang.String"/>
+		<field name="stavkafakture_osnovica" class="java.lang.Float"/>
+		<field name="faktura_datumFakture" class="java.sql.Timestamp"/>
+		<field name="stavkafakture_iznosPDV" class="java.lang.Float"/>
+		<field name="stavkafakture_kolicina" class="java.lang.Float"/>
+		<field name="faktura_datumValute" class="java.sql.Timestamp"/>
+		<field name="stavkafakture_iznosStavke" class="java.lang.Float"/>
+		<field name="preduzece_ulicaIBroj" class="java.lang.String"/>
+		<field name="stavkafakture_procenatPDV" class="java.lang.Float"/>
+		<field name="poslovnipartner_ulicaIBroj" class="java.lang.String"/>
+		<field name="stavkafakture_jedinicnaCena" class="java.lang.Float"/>
+		<field name="poslovnipartner_nazivPartnera" class="java.lang.String"/>
+		<field name="faktura_osnovica" class="java.lang.Float"/>
+		<field name="preduzece_email" class="java.lang.String"/>
+		<field name="stavkacenovnika_cena" class="java.lang.Float"/>
+		<field name="preduzece_nazivPreduzeca" class="java.lang.String"/>
+		<field name="robailiusluga_nazivRIU" class="java.lang.String"/>
+		<field name="faktura_iznosZaPlacanje" class="java.lang.Float"/>
+		<field name="faktura_ukupanPDV" class="java.lang.Float"/>
+	</subDataset>
 	<parameter name="id" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -35,31 +104,7 @@
      stavkafakture.`procenatPDV` AS stavkafakture_procenatPDV,
      stavkafakture.`rabat` AS stavkafakture_rabat,
      stopapdv.`procenatPDV` AS stopapdv_procenatPDV,
-     faktura.`id` AS faktura_id,
-     pdv.`id` AS pdv_id,
-     gruparobe.`id` AS gruparobe_id,
-     preduzece.`id` AS preduzece_id,
-     preduzece.`mesto_id` AS preduzece_mesto_id,
-     gruparobe.`PDV_id` AS gruparobe_PDV_id,
-     gruparobe.`preduzece_id` AS gruparobe_preduzece_id,
-     stavkacenovnika.`id` AS stavkacenovnika_id,
-     stavkacenovnika.`cenovnik_id` AS stavkacenovnika_cenovnik_id,
-     stavkacenovnika.`robaIliUsluga_id` AS stavkacenovnika_robaIliUsluga_id,
-     robailiusluga.`id` AS robailiusluga_id,
-     robailiusluga.`grupaRobe_id` AS robailiusluga_grupaRobe_id,
-     stavkafakture.`id` AS stavkafakture_id,
-     stavkafakture.`faktura_id` AS stavkafakture_faktura_id,
-     stavkafakture.`robaIliUsluga_id` AS stavkafakture_robaIliUsluga_id,
-     mesto.`id` AS mesto_id,
-     poslovnipartner.`id` AS poslovnipartner_id,
-     poslovnipartner.`mesto_id` AS poslovnipartner_mesto_id,
-     poslovnipartner.`preduzece_id` AS poslovnipartner_preduzece_id,
-     faktura.`poslovniPartner_id` AS faktura_poslovniPartner_id,
-     faktura.`preduzece_id` AS faktura_preduzece_id,
-     cenovnik.`id` AS cenovnik_id,
-     stopapdv.`id` AS stopapdv_id,
-     stopapdv.`PDV_id` AS stopapdv_PDV_id,
-     cenovnik.`preduzece_id` AS cenovnik_preduzece_id
+     faktura.`id` AS faktura_id
 FROM
      `pdv` pdv INNER JOIN `gruparobe` gruparobe ON pdv.`id` = gruparobe.`PDV_id`
      INNER JOIN `preduzece` preduzece ON gruparobe.`preduzece_id` = preduzece.`id`
@@ -105,30 +150,6 @@ WHERE
 	<field name="stavkafakture_rabat" class="java.lang.Float"/>
 	<field name="stopapdv_procenatPDV" class="java.lang.Integer"/>
 	<field name="faktura_id" class="java.lang.Long"/>
-	<field name="pdv_id" class="java.lang.Long"/>
-	<field name="gruparobe_id" class="java.lang.Long"/>
-	<field name="preduzece_id" class="java.lang.Long"/>
-	<field name="preduzece_mesto_id" class="java.lang.Long"/>
-	<field name="gruparobe_PDV_id" class="java.lang.Long"/>
-	<field name="gruparobe_preduzece_id" class="java.lang.Long"/>
-	<field name="stavkacenovnika_id" class="java.lang.Long"/>
-	<field name="stavkacenovnika_cenovnik_id" class="java.lang.Long"/>
-	<field name="stavkacenovnika_robaIliUsluga_id" class="java.lang.Long"/>
-	<field name="robailiusluga_id" class="java.lang.Long"/>
-	<field name="robailiusluga_grupaRobe_id" class="java.lang.Long"/>
-	<field name="stavkafakture_id" class="java.lang.Long"/>
-	<field name="stavkafakture_faktura_id" class="java.lang.Long"/>
-	<field name="stavkafakture_robaIliUsluga_id" class="java.lang.Long"/>
-	<field name="mesto_id" class="java.lang.Long"/>
-	<field name="poslovnipartner_id" class="java.lang.Long"/>
-	<field name="poslovnipartner_mesto_id" class="java.lang.Long"/>
-	<field name="poslovnipartner_preduzece_id" class="java.lang.Long"/>
-	<field name="faktura_poslovniPartner_id" class="java.lang.Long"/>
-	<field name="faktura_preduzece_id" class="java.lang.Long"/>
-	<field name="cenovnik_id" class="java.lang.Long"/>
-	<field name="stopapdv_id" class="java.lang.Long"/>
-	<field name="stopapdv_PDV_id" class="java.lang.Long"/>
-	<field name="cenovnik_preduzece_id" class="java.lang.Long"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -245,7 +266,7 @@ WHERE
 			<textField>
 				<reportElement x="383" y="78" width="100" height="20" uuid="d4d6a46c-8beb-468d-a036-febc95d2e69e"/>
 				<textElement>
-					<font size="12"/>
+					<font size="12" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{poslovnipartner_ulicaIBroj}]]></textFieldExpression>
 			</textField>

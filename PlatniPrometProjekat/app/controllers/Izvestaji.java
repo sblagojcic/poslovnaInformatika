@@ -41,7 +41,7 @@ public class Izvestaji extends Controller {
 	public static void report1(@Required Date datumPocetka,
 			@Required Date datumZavrsetka){
 			try {
-	        String status = "P";  // i sve vrste
+
 			Map params = new HashMap(1);
 			params.put("datumPocetka", datumPocetka);
 			params.put("datumZavrsetka", datumZavrsetka);
@@ -54,7 +54,7 @@ public class Izvestaji extends Controller {
 	}	
 	public static void report2(@Required long id){
 		try {
-	        String status = "P";  // i sve vrste
+
 			Map params = new HashMap(1);
 			params.put("id", id);
 			JasperPrint jp = JasperFillManager.fillReport( "C://Users/Korisnik/workspacePoslovna/poslovnaInformatika/PlatniPrometProjekat/lib/faktura.jasper",params,DriverManager.getConnection("jdbc:mysql://localhost:3306/projekatplay", "root", "1234") );
