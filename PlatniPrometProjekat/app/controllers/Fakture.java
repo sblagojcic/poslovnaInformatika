@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import com.thoughtworks.xstream.XStream;
+
 import models.Faktura;
 import models.PoslovnaGodina;
 import models.PoslovniPartner;
@@ -85,7 +87,7 @@ public class Fakture extends Controller {
 		String FILENAME = "D:\\filename.xml";
 
 		Faktura faktura = Faktura.findById(id);
-		String xmlString="<?xml version='1.0' encoding='UTF-8'?>\n"+"<Faktura> \n"
+		/*String xmlString="<?xml version='1.0' encoding='UTF-8'?>\n"+"<Faktura> \n"
 				+"\t<brojFaktura>"+faktura.brojFaktura+"</brojFaktura>\n"
 				+"\t<datumFakture>"+faktura.datumFakture+"</datumFakture>\n"
 				+"\t<datumValute>"+faktura.datumValute+"</datumValute>\n"
@@ -109,7 +111,11 @@ public class Fakture extends Controller {
 					+"\t\t</stavkaFakture>\n";
 		}
 		xmlString=xmlString+"\t</stavkeFakture>\n"
-				+"</Faktura> \n";
+				+"</Faktura> \n";*/
+		
+		XStream xstream=new XStream();
+		
+		String xmlString=xstream.toXML(faktura);
 		System.out.println(xmlString);
 		FileWriter fw = new FileWriter(FILENAME);
 		BufferedWriter bw = new BufferedWriter(fw);
