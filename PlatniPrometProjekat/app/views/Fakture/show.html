@@ -60,9 +60,10 @@ function sync(item){
 	   <th>ukupan PDV</th>
 	   <th>iznos za placanje</th>
 	   <th>status fakture</th>
-	   <th>preduzece</th>
+	   <th>poslovni partner</th>
+	   <th>preduzece </th>
 	   <th>poslovna godina</th>
-	   	   <th>poslovni partner</th>
+
 	</tr>
 #{list items:fakture, as:'faktura'}
 	<tr>
@@ -74,8 +75,8 @@ function sync(item){
 		<td class = "iznosZaPlacanje">${faktura.iznosZaPlacanje}</td>
 		<td class = "statusFakture">${faktura.statusFakture}</td>
 		<td class = "poslovniPartner">${faktura.poslovniPartner.nazivPartnera}</td>
-		<td class = "poslovnaGodina">${faktura.poslovnaGodina.godina}</td>
 		<td class = "preduzece">${faktura.preduzece.nazivPreduzeca}</td>
+		<td class = "poslovnaGodina">${faktura.poslovnaGodina.godina}</td>
 		<td style = "visibility: hidden; max-width: 0px" class = "id">${faktura.id}</td>
 	</tr>
 #{/list}
@@ -91,7 +92,7 @@ function sync(item){
 	#{/elseif}
 	
 	#{elseif mode == 'generate'}
-		@{Otpremnice.generate()}
+		@{Fakture.generate()}
 	#{/elseif}
 	
 	#{elseif mode == 'remove'}

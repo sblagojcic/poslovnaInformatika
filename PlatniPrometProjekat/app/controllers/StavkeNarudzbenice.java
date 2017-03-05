@@ -39,8 +39,9 @@ public class StavkeNarudzbenice extends Controller {
 			stavkaNarudzbenice.robaIliUsluga=RobaIliUsluga.findById(robaIliUsluga);
 			stavkaNarudzbenice.narudzbenica=narudzbenicaa;
 			stavkaNarudzbenice.save();
-			validation.keep();
 			narudzbenicaa.save();
+			validation.keep();
+
 
 			show("add");
 	}
@@ -59,6 +60,7 @@ public class StavkeNarudzbenice extends Controller {
 		stavkaNarudzbenice.robaIliUsluga = RobaIliUsluga.findById(robaIliUsluga);
 
 		stavkaNarudzbenice.save();
+		narudzbenicaa.save();
 		show("");
 	}	
 	public static void delete(long id){

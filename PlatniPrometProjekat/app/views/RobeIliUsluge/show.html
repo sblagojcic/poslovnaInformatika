@@ -48,8 +48,9 @@ function sync(item){
 #{list items:robeIliUsluge, as:'robaIliUsluga'}
 
 	<tr>
-		<td class = "jedinicaMere">${robaIliUsluga.jedinicaMere}</td>
+
 		<td class = "nazivRIU">${robaIliUsluga.nazivRIU}</td>
+		<td class = "jedinicaMere">${robaIliUsluga.jedinicaMere}</td>
 		<td class = "grupaRobe">${robaIliUsluga.grupaRobe.nazivGrupe}</td>	
 		<td style = "visibility: hidden; max-width: 0px" class = "id">${robaIliUsluga.id}</td>
 	</tr>
@@ -85,19 +86,20 @@ function sync(item){
 				#{/}
 				
 				
+		
 				<p>
-				#{field 'jedinicaMere'}
+				#{field 'nazivRIU'}
 					<label for = "${field.id}">Naziv</label>
 					<input type = "text" name = "${field.name}" id = "${field.name}"/>
-					<span>#{error 'jedinicaMere' /}</span>
+					<span>#{error 'nazivRIU' /}</span>
 				#{/}
 				
 				</p>
-				<p>
-				#{field 'nazivRIU'}
+						<p>
+				#{field 'jedinicaMere'}
 					<label for = "${field.id}">jedinica mere</label>
 					<input type = "text" name = "${field.name}" id = "${field.name}"/>
-					<span>#{error 'nazivRIU' /}</span>
+					<span>#{error 'jedinicaMere' /}</span>
 				#{/}
 				
 				</p>

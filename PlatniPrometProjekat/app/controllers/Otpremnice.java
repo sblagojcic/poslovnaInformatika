@@ -25,8 +25,8 @@ public class Otpremnice extends Controller {
 			mode = "edit";
 		render(otpremnice,poslovneGodine,poslovniPartneri, mode);
 	}
-	public static void add(@Required int brojOtpremnice,@Required long osnovica,@Required long ukupanPDV,
-			@Required long iznosZaPlacanje, @Required long poslovniPartner, @Required long poslovnaGodina) {
+	public static void add(@Required int brojOtpremnice, long osnovica, long ukupanPDV,
+			 long iznosZaPlacanje,  long poslovniPartner,  long poslovnaGodina) {
 		if(validation.hasErrors()) {
 			for(Error error : validation.errors()) {
 			System.out.println(error.message());
@@ -46,42 +46,7 @@ public class Otpremnice extends Controller {
 			show("add");
 		}
 	}
-	
 
-	public static void generate(int brojOtpremnice, long poslovniPartner,  long poslovnaGodina, long id){
-		List<Otpremnica> zaBroj=Otpremnica.findAll();
-		int n=zaBroj.size()-1;
-		Faktura faktura=Faktura.findById(id);
-		Otpremnica otpremnicaa=zaBroj.get(n);		
-		Otpremnica otpremnica=new Otpremnica();
-		otpremnica.brojOtpremnice=otpremnicaa.brojOtpremnice+1;
-		otpremnica.osnovica=faktura.osnovica;
-		otpremnica.ukupanPDV=faktura.ukupanPDV;
-		otpremnica.iznosZaPlacanje=faktura.iznosZaPlacanje;
-		otpremnica.poslovniPartner=PoslovniPartner.findById(poslovniPartner);
-		otpremnica.poslovnaGodina=PoslovnaGodina.findById(poslovnaGodina);
-		otpremnica.save();
-		for (StavkaFakture stavkaF : faktura.stavkeFakture) {
-			StavkaOtpremnice stavkaO=new StavkaOtpremnice();
-			stavkaO.iznosStavke=stavkaF.iznosStavke;
-			stavkaO.kolicina=stavkaF.kolicina;
-			stavkaO.jedinicnaCena=stavkaF.jedinicnaCena;
-			stavkaO.rabat=stavkaF.rabat;
-			stavkaO.osnovica=stavkaF.osnovica;
-			stavkaO.procenatPDV=stavkaF.procenatPDV;
-			stavkaO.robaIliUsluga=stavkaF.robaIliUsluga;
-			stavkaO.iznosPDV=stavkaF.iznosPDV;
-			stavkaO.otpremnica=otpremnica;
-			stavkaO.save();
-			
-		}
-		show("");
-	}	
-	
-	
-	
-	
-	
 	public static void filter(Date datum, long preduzece){
 		List<Otpremnica> otpremnice = Otpremnica.find("byPreduzece_id", preduzece).fetch();
 		String mode = "edit";

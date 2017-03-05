@@ -9,10 +9,12 @@ import java.util.List;
 import com.thoughtworks.xstream.XStream;
 
 import models.Faktura;
+import models.Otpremnica;
 import models.PoslovnaGodina;
 import models.PoslovniPartner;
 import models.Preduzece;
 import models.StavkaFakture;
+import models.StavkaOtpremnice;
 import play.data.validation.Error;
 import play.data.validation.Required;
 import play.mvc.Controller;
@@ -86,6 +88,38 @@ public class Fakture extends Controller {
 		faktura.delete();
 		show("");
 	}
+	public static void generate(int brojOtpremnice, long poslovniPartner,  long poslovnaGodina, long id){
+		List<Otpremnica> zaBroj=Otpremnica.findAll();
+		int n=zaBroj.size()-1;
+		Faktura faktura=Faktura.findById(id);
+		Otpremnica otpremnicaa=zaBroj.get(n);		
+		Otpremnica otpremnica=new Otpremnica();
+		otpremnica.brojOtpremnice=otpremnicaa.brojOtpremnice+1;
+		otpremnica.osnovica=faktura.osnovica;
+		otpremnica.ukupanPDV=faktura.ukupanPDV;
+		otpremnica.iznosZaPlacanje=faktura.iznosZaPlacanje;
+		otpremnica.poslovniPartner=PoslovniPartner.findById(poslovniPartner);
+		otpremnica.poslovnaGodina=PoslovnaGodina.findById(poslovnaGodina);
+		otpremnica.save();
+		for (StavkaFakture stavkaF : faktura.stavkeFakture) {
+			StavkaOtpremnice stavkaO=new StavkaOtpremnice();
+			stavkaO.iznosStavke=stavkaF.iznosStavke;
+			stavkaO.kolicina=stavkaF.kolicina;
+			stavkaO.jedinicnaCena=stavkaF.jedinicnaCena;
+			stavkaO.rabat=stavkaF.rabat;
+			stavkaO.osnovica=stavkaF.osnovica;
+			stavkaO.procenatPDV=stavkaF.procenatPDV;
+			stavkaO.robaIliUsluga=stavkaF.robaIliUsluga;
+			stavkaO.iznosPDV=stavkaF.iznosPDV;
+			stavkaO.otpremnica=otpremnica;
+			stavkaO.save();
+			
+		}
+		
+		show("");
+	}	
+	
+	
 	public static void export(long id) throws IOException{
 		String FILENAME = "D:\\filename.xml";
 
