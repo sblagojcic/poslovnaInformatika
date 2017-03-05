@@ -31,6 +31,7 @@ public class StavkeFakture extends Controller {
 		}else {
 			StavkaFakture stavkaFakture=new StavkaFakture();
 			RobaIliUsluga roba=RobaIliUsluga.findById(robaIliUsluga);
+			Faktura fakturaa=Faktura.findById(faktura);
 			stavkaFakture.kolicina=kolicina;
 			stavkaFakture.jedinicnaCena=roba.stavkeCenovnika.get(0).cena;
 			stavkaFakture.rabat=rabat;
@@ -39,8 +40,12 @@ public class StavkeFakture extends Controller {
 			stavkaFakture.iznosPDV=stavkaFakture.osnovica*stavkaFakture.procenatPDV/100;
 			stavkaFakture.iznosStavke=stavkaFakture.osnovica+stavkaFakture.iznosPDV;
 			stavkaFakture.robaIliUsluga=RobaIliUsluga.findById(robaIliUsluga);
-			stavkaFakture.faktura=Faktura.findById(faktura);
+			stavkaFakture.faktura=fakturaa;
+			fakturaa.iznosZaPlacanje+=stavkaFakture.iznosStavke;
+			fakturaa.osnovica+=stavkaFakture.osnovica;
+			fakturaa.ukupanPDV+=stavkaFakture.iznosPDV;
 			stavkaFakture.save();
+			fakturaa.save();
 			validation.keep();
 			show("add");
 	}
@@ -52,6 +57,10 @@ public class StavkeFakture extends Controller {
 	}
 	public static void edit(@Required float kolicina,float rabat,@Required long robaIliUsluga, long faktura, long id){
 		StavkaFakture stavkaFakture = StavkaFakture.findById(id);
+		Faktura fakturaa=Faktura.findById(faktura);
+		fakturaa.iznosZaPlacanje=fakturaa.iznosZaPlacanje-stavkaFakture.iznosStavke;
+		fakturaa.osnovica=fakturaa.osnovica-stavkaFakture.osnovica;
+		fakturaa.ukupanPDV=fakturaa.ukupanPDV-stavkaFakture.iznosPDV;
 		RobaIliUsluga roba=RobaIliUsluga.findById(robaIliUsluga);
 		stavkaFakture.kolicina=kolicina;
 		stavkaFakture.jedinicnaCena=roba.stavkeCenovnika.get(0).cena;
@@ -61,8 +70,12 @@ public class StavkeFakture extends Controller {
 		stavkaFakture.iznosPDV=stavkaFakture.osnovica*stavkaFakture.procenatPDV/100;
 		stavkaFakture.iznosStavke=stavkaFakture.osnovica+stavkaFakture.iznosPDV;
 		stavkaFakture.robaIliUsluga=RobaIliUsluga.findById(robaIliUsluga);
-		stavkaFakture.faktura=Faktura.findById(faktura);
+		stavkaFakture.faktura=fakturaa;
+		fakturaa.iznosZaPlacanje+=stavkaFakture.iznosStavke;
+		fakturaa.osnovica+=stavkaFakture.osnovica;
+		fakturaa.ukupanPDV+=stavkaFakture.iznosPDV;
 		stavkaFakture.save();
+		fakturaa.save();
 		show("");
 	}	
 	public static void delete(long id){
