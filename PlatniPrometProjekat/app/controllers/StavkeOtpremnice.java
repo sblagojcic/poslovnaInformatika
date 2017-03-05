@@ -30,6 +30,7 @@ public class StavkeOtpremnice extends Controller {
 			show("add");
 		}else {
 			StavkaOtpremnice stavkaOtpremnice=new StavkaOtpremnice();
+			Otpremnica otpremnicaa = Otpremnica.findById(otpremnica);
 			stavkaOtpremnice.kolicina=kolicina;
 			stavkaOtpremnice.jedinicnaCena=jedinicnaCena;
 			stavkaOtpremnice.rabat=rabat;
@@ -38,8 +39,12 @@ public class StavkeOtpremnice extends Controller {
 			stavkaOtpremnice.iznosPDV=iznosPDV;
 			stavkaOtpremnice.iznosStavke=iznosStavke;
 			stavkaOtpremnice.robaIliUsluga=RobaIliUsluga.findById(robaIliUsluga);
-			stavkaOtpremnice.otpremnica=Otpremnica.findById(otpremnica);
+			stavkaOtpremnice.otpremnica=otpremnicaa;
+			otpremnicaa.iznosZaPlacanje+=stavkaOtpremnice.iznosStavke;
+			otpremnicaa.osnovica+=stavkaOtpremnice.osnovica;
+			otpremnicaa.ukupanPDV+=stavkaOtpremnice.iznosPDV;
 			stavkaOtpremnice.save();
+			otpremnicaa.save();
 			validation.keep();
 			show("add");
 	}
@@ -51,6 +56,7 @@ public class StavkeOtpremnice extends Controller {
 	}
 	public static void edit(long robaIliUsluga, long otpremnica, float kolicina,float jedinicnaCena,float rabat,float osnovica, float procenatPDV, float iznosPDV, float iznosStavke, long id){
 		StavkaOtpremnice stavkaOtpremnice = StavkaOtpremnice.findById(id);
+		Otpremnica otpremnicaa = Otpremnica.findById(otpremnica);
 		stavkaOtpremnice.kolicina = kolicina;
 		stavkaOtpremnice.jedinicnaCena = jedinicnaCena;
 		stavkaOtpremnice.rabat = rabat;
@@ -58,10 +64,14 @@ public class StavkeOtpremnice extends Controller {
 		stavkaOtpremnice.procenatPDV = procenatPDV;
 		stavkaOtpremnice.iznosPDV = iznosPDV;
 		stavkaOtpremnice.iznosStavke = iznosStavke;
-		stavkaOtpremnice.otpremnica = Otpremnica.findById(otpremnica);
+		stavkaOtpremnice.otpremnica = otpremnicaa;
+		otpremnicaa.iznosZaPlacanje+=stavkaOtpremnice.iznosStavke;
+		otpremnicaa.osnovica+=stavkaOtpremnice.osnovica;
+		otpremnicaa.ukupanPDV+=stavkaOtpremnice.iznosPDV;
 		stavkaOtpremnice.robaIliUsluga = RobaIliUsluga.findById(robaIliUsluga);
 
 		stavkaOtpremnice.save();
+		otpremnicaa.save();
 		show("");
 	}	
 	public static void delete(long id){

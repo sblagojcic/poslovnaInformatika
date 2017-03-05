@@ -9,6 +9,7 @@ import models.PoslovnaGodina;
 import models.PoslovniPartner;
 import models.Preduzece;
 import models.StavkaFakture;
+import models.StavkaNarudzbenice;
 import models.StavkaOtpremnice;
 import play.data.validation.Error;
 import play.data.validation.Required;
@@ -100,6 +101,9 @@ public class Otpremnice extends Controller {
 	}	
 	public static void delete(long id){
 		Otpremnica otpremnica = Otpremnica.findById(id);
+		for (StavkaOtpremnice stavka : otpremnica.stavkeOtpremnice) {
+	 		stavka.delete();
+	 		}
 		otpremnica.delete();
 		show("");
 	}

@@ -57,6 +57,9 @@ public class Narudzbenice extends Controller {
 	}	
 	public static void delete(long id){
 		Narudzbenica narudzbenica = Narudzbenica.findById(id);
+		for (StavkaNarudzbenice stavka : narudzbenica.stavkeNarudzbenice) {
+			 		stavka.delete();
+			 		}
 		narudzbenica.delete();
 		show("");
 	}

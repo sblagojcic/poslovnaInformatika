@@ -31,13 +31,17 @@ public class StavkeNarudzbenice extends Controller {
 			validation.keep();
 			show("add");
 		}else {
+			
 			StavkaNarudzbenice stavkaNarudzbenice=new StavkaNarudzbenice();
+			Narudzbenica narudzbenicaa=Narudzbenica.findById(narudzbenica);
 			stavkaNarudzbenice.kolicina=kolicina;
 			stavkaNarudzbenice.jedinicaMere=jedinicaMere;
 			stavkaNarudzbenice.robaIliUsluga=RobaIliUsluga.findById(robaIliUsluga);
-			stavkaNarudzbenice.narudzbenica=Narudzbenica.findById(narudzbenica);
+			stavkaNarudzbenice.narudzbenica=narudzbenicaa;
 			stavkaNarudzbenice.save();
 			validation.keep();
+			narudzbenicaa.save();
+
 			show("add");
 	}
 	}
@@ -48,9 +52,10 @@ public class StavkeNarudzbenice extends Controller {
 	}
 	public static void edit(long robaIliUsluga, long narudzbenica, float kolicina,String jedinicaMere,long id){
 		StavkaNarudzbenice stavkaNarudzbenice = StavkaNarudzbenice.findById(id);
+		Narudzbenica narudzbenicaa=Narudzbenica.findById(narudzbenica);
 		stavkaNarudzbenice.kolicina = kolicina;
 		stavkaNarudzbenice.jedinicaMere = jedinicaMere;
-		stavkaNarudzbenice.narudzbenica = Narudzbenica.findById(narudzbenica);
+		stavkaNarudzbenice.narudzbenica = narudzbenicaa;
 		stavkaNarudzbenice.robaIliUsluga = RobaIliUsluga.findById(robaIliUsluga);
 
 		stavkaNarudzbenice.save();
