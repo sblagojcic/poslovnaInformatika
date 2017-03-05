@@ -49,6 +49,9 @@ public class Cenovnici extends Controller {
 	}	
 	public static void delete(long id){
 		Cenovnik cenovnik = Cenovnik.findById(id);
+		for (StavkaCenovnika stavka : cenovnik.stavkeCenovnika) {
+			stavka.delete();
+		}
 		cenovnik.delete();
 		show("");
 	}

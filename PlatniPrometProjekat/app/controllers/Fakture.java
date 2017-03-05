@@ -80,6 +80,9 @@ public class Fakture extends Controller {
 	}	
 	public static void delete(long id){
 		Faktura faktura = Faktura.findById(id);
+		for (StavkaFakture stavka : faktura.stavkeFakture) {
+			stavka.delete();
+		}
 		faktura.delete();
 		show("");
 	}
