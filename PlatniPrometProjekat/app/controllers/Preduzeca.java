@@ -40,7 +40,9 @@ public class Preduzeca extends Controller {
 	}
 	public static void filter(@Required String nazivPreduzeca,long mesto, String ulicaIBroj,
 			int pIB, String email, String telefon){
-		List<Preduzece> preduzeca = Mesto.find("byNazivPreduzecaLikeAndUlicaIBrojLikeAndEmailLikeAndTelefonLikeAndPIBLikeAndMesto_id", "%"+ nazivPreduzeca +"%","%"+ ulicaIBroj +"%","%"+ email +"%","%"+ telefon +"%","%"+ pIB +"%", mesto).fetch();
+		List<Preduzece> preduzeca = Mesto.find("byNazivPreduzecaLikeAndUlicaIBrojLikeAnd"
+				+ "EmailLikeAndTelefonLikeAndPIBLikeAndMesto_id", "%"+ nazivPreduzeca +"%","%"+
+			ulicaIBroj +"%","%"+ email +"%","%"+ telefon +"%","%"+ pIB +"%", mesto).fetch();
 		String mode = "edit";
 		renderTemplate("Preduzeca/show.html", preduzeca, mode);
 	}

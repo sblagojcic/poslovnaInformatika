@@ -40,7 +40,7 @@ public class PoslovniPartneri extends Controller {
 	}
 	public static void filter(@Required String nazivPartnera,long mesto, String ulicaIBroj,
 			 String vrstaPartnera, long preduzece){
-		List<PoslovniPartner> poslovniPartneri = Mesto.find("byNazivPartneraLikeAndUlicaIBrojLikeAndVrstaPartneraLikeAndMesto_idAndPreduzece_id", "%"+ nazivPartnera +"%","%"+ ulicaIBroj +"%","%"+ vrstaPartnera +"%", mesto, preduzece).fetch();
+		List<PoslovniPartner> poslovniPartneri = PoslovniPartner.find("byNazivPartneraLikeAndUlicaIBrojLikeAndVrstaPartneraLikeAndMesto_idAndPreduzece_id", "%"+ nazivPartnera +"%","%"+ ulicaIBroj +"%","%"+ vrstaPartnera +"%", mesto, preduzece).fetch();
 		String mode = "edit";
 		renderTemplate("PoslovniPartneri/show.html", poslovniPartneri, mode);
 	}

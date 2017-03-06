@@ -36,7 +36,7 @@ public class PoslovneGodine extends Controller {
 	}
 	}
 	public static void filter(@Required int godina){
-		List<PoslovnaGodina> poslovneGodine = Mesto.find("byGodina", godina).fetch();
+		List<PoslovnaGodina> poslovneGodine =PoslovnaGodina.find("byGodina", godina).fetch();
 		String mode = "edit";
 		renderTemplate("PoslovneGodine/show.html", poslovneGodine, mode);
 	}
